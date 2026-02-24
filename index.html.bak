@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>8-ми Март - Магическа Картичка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --rose-pink: #d42d4d;
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            background: #fff0f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* НАЧАЛЕН ЕКРАН */
+        #setup {
+            text-align: center;
+            background-image: url('1.png');
+            background-size: cover;
+            background-position: center;
+            padding: 50px 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            position: absolute;
+            z-index: 100;
+            border: 3px solid white;
+            width: 85%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        #setup h1 {
+            background: var(--glass);
+            padding: 15px;
+            border-radius: 15px;
+            font-family: 'Great Vibes', cursive;
+            color: var(--rose-pink);
+            font-size: 2.2rem;
+            margin: 0 0 20px 0;
+            backdrop-filter: blur(5px);
+        }
+
+        input {
+            padding: 15px;
+            border: 2px solid var(--gold);
+            border-radius: 30px;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            width: 85%;
+            outline: none;
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--gold), #b8860b);
+            color: white;
+            border: none;
+            padding: 15px 45px;
+            border-radius: 35px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        /* КАРТИЧКА */
+        .scene {
+            width: 90vw;
+            max-width: 420px;
+            height: 80vh;
+            perspective: 2000px;
+            display: none;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card.open { transform: rotateY(-170deg); }
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            background-image: url('2.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        .back { 
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+        }
+
+        #display-name { 
+            font-family: 'Great Vibes', cursive; 
+            color: var(--rose-pink); 
+            font-size: 3.5rem; 
+            margin: 0; 
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 40px;
+            color: var(--gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .highlight {
+            font-size: 2rem;
+            font-family: 'Great Vibes', cursive;
+            color: var(--rose-pink);
+            animation: magic-pulse 1.5s infinite;
+        }
+
+        #typing-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            text-align: center;
+            line-height: 1.3;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 10px;
+            min-height: 160px;
+            box-sizing: border-box;
+            z-index: 5;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .bouquet-wrap {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        #flower {
+            max-width: 120%;
+            max-height: 120%;
+            opacity: 0;
+            mix-blend-mode: multiply;
+            transform: translateZ(-50px) scale(0.1);
+            transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #flower.pop-out {
+            opacity: 1;
+            transform: translateZ(120px) scale(1.4);
+        }
+
+        #share-area {
+            position: absolute;
+            bottom: 20px;
+            z-index: 20;
+            display: none;
+        }
+
+        .share-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            border-radius: 20px;
+        }
+
+        @keyframes magic-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .petal { position: absolute; background: #ffc2d1; border-radius: 150% 0 150% 0; opacity: 0.6; pointer-events: none; z-index: 100; }
+        @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+        @media (max-width: 480px) {
+            #display-name { font-size: 3rem; }
+            #typing-text { font-size: 1.6rem; padding: 15px; min-height: 140px; }
+            .scene { height: 85vh; }
+        }
+    </style>
+</head>
+<body>
+
+<audio id="magicSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+<audio id="bgMusic" loop src="music.mp3" preload="auto"></audio>
+
+<div id="setup">
+    <h1>Магия за 8-ми Март</h1>
+    <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Напиши името на жената, която искаш да зарадваш:</p>
+    <input type="text" id="userName" placeholder="Име">
+    <br>
+    <button onclick="startApp()">СЪЗДАЙ ✨</button>
+</div>
+
+<div class="scene" id="cardScene">
+    <div class="card" id="mainCard" onclick="openCard()">
+        <div class="face front">
+            <h2 style="color: var(--gold); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 3px; margin: 0;">Честит празник,</h2>
+            <h1 id="display-name"></h1>
+            <p class="hint">Докосни <span class="highlight">ТУК</span> за теб</p>
+        </div>
+        
+        <div class="face back">
+            <div id="typing-text"></div>
+            <div class="bouquet-wrap">
+                <img src="bouquet.png" id="flower">
+            </div>
+            <div id="share-area">
+                <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ НА ДРУГА ДАМА 🎀</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const wish = "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Нека този празник ти донесе безброй усмивки и топлина в сърцето. Честит 8-ми март!";
+    let i = 0;
+    let petalInterval; // Променлива за спиране на интервала
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const nameFromUrl = urlParams.get('name');
+        if (nameFromUrl) {
+            document.getElementById('userName').value = nameFromUrl;
+            startApp(true);
+        }
+    }
+
+    function startApp(auto = false) {
+        const name = document.getElementById('userName').value;
+        if (!name) return alert("Моля, въведи име.");
+        document.getElementById('display-name').innerText = name + "!";
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('cardScene').style.display = 'block';
+        if (!auto) playMusic();
+    }
+
+    function playMusic() {
+        const bgMusic = document.getElementById('bgMusic');
+        const magic = document.getElementById('magicSound');
+        magic.play();
+        bgMusic.currentTime = 30; 
+        bgMusic.volume = 0.4;
+        bgMusic.play();
+    }
+
+    function openCard() {
+        const card = document.getElementById('mainCard');
+        if (card.classList.contains('open')) return;
+        playMusic();
+        card.classList.add('open');
+        
+        setTimeout(typeWriter, 1200);
+        
+        // СТАРТИРАМЕ ЛИСТЕНЦАТА
+        petalInterval = setInterval(createPetal, 450);
+    }
+
+    function typeWriter() {
+        if (i < wish.length) {
+            document.getElementById("typing-text").innerHTML += wish.charAt(i);
+            i++;
+            setTimeout(typeWriter, 65);
+        } else {
+            // КОГАТО ТЕКСТЪТ СВЪРШИ:
+            clearInterval(petalInterval); // Спираме генерирането на нови листенца
+            
+            setTimeout(() => {
+                const img = document.getElementById('flower');
+                img.classList.add('pop-out');
+                setTimeout(() => {
+                    img.classList.add('alive');
+                    document.getElementById('share-area').style.display = 'block';
+                }, 2500);
+            }, 800);
+        }
+    }
+
+    function shareToOther(event) {
+        event.stopPropagation();
+        const newName = prompt("Въведи името на жената, на която искаш да пратиш картичка:");
+        if (newName) {
+            const currentUrl = window.location.href.split('?')[0];
+            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName);
+            navigator.clipboard.writeText(newUrl).then(() => {
+                alert("Магическият линк за " + newName + " е копиран! ✨");
+            });
+        }
+    }
+
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + 'vw';
+        const size = Math.random() * 12 + 10 + 'px';
+        petal.style.width = size;
+        petal.style.height = size;
+        petal.style.animation = `fall ${Math.random() * 2 + 4}s linear forwards`;
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 6000);
+    }
+</script>
+
+</body>
+</html>
