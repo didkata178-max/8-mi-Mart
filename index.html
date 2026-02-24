@@ -24,6 +24,7 @@
             touch-action: manipulation;
         }
 
+        /* НАЧАЛЕН ЕКРАН */
         #setup {
             text-align: center;
             background-image: url('1.png');
@@ -71,9 +72,12 @@
             cursor: pointer;
             font-weight: 500;
             font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            transition: 0.3s;
             text-transform: uppercase;
         }
 
+        /* КАРТИЧКА */
         .scene {
             width: 90vw;
             max-width: 420px;
@@ -110,13 +114,17 @@
             box-sizing: border-box;
         }
 
-        .back { transform: rotateY(180deg); justify-content: flex-start; }
+        .back { 
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+        }
 
         #display-name { 
             font-family: 'Great Vibes', cursive; 
             color: var(--rose-pink); 
             font-size: 3.5rem; 
             margin: 0; 
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
         }
 
         .hint {
@@ -126,6 +134,7 @@
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 2px;
+            font-weight: 500;
         }
 
         .highlight {
@@ -135,6 +144,7 @@
             animation: magic-pulse 1.5s infinite;
         }
 
+        /* ТЕКСТОВО ПОЛЕ БЕЗ БЯЛА ЧЕРТА */
         #typing-text {
             font-family: 'Great Vibes', cursive;
             font-size: 1.8rem;
@@ -150,6 +160,7 @@
             min-height: 160px;
             box-sizing: border-box;
             z-index: 5;
+            border: none; /* Премахната бяла черта */
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
@@ -180,6 +191,12 @@
             transform: translateZ(120px) scale(1.4);
         }
 
+        .alive { animation: float 5s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateZ(120px) scale(1.4) translateY(0); }
+            50% { transform: translateZ(150px) scale(1.45) translateY(-20px); }
+        }
+
         #share-area {
             position: absolute;
             bottom: 20px;
@@ -192,11 +209,15 @@
             color: var(--gold);
             border: 1px solid var(--gold);
             padding: 10px 20px;
+            font-family: 'Montserrat', sans-serif;
             font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 1px;
             border-radius: 20px;
+            cursor: pointer;
         }
 
-        /* ПОПРАВЕНИТЕ ЛИСТЕНЦА */
+        /* ВИДИМИ ЛИСТЕНЦА */
         .petal { 
             position: absolute; 
             background: linear-gradient(135deg, #ffb7c5, #d42d4d);
@@ -216,6 +237,7 @@
         @media (max-width: 480px) {
             #display-name { font-size: 3rem; }
             #typing-text { font-size: 1.6rem; }
+            .scene { height: 85vh; }
         }
     </style>
 </head>
@@ -226,7 +248,7 @@
 
 <div id="setup">
     <h1>Магия за 8-ми Март</h1>
-    <p style="font-size: 0.9rem;">Напиши името на дамата:</p>
+    <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Напиши името на жената, която искаш да зарадваш:</p>
     <input type="text" id="userName" placeholder="Име">
     <br>
     <button onclick="startApp()">СЪЗДАЙ ✨</button>
@@ -235,7 +257,7 @@
 <div class="scene" id="cardScene">
     <div class="card" id="mainCard" onclick="openCard()">
         <div class="face front">
-            <h2 style="color: var(--gold); font-size: 1.1rem;">Честит празник,</h2>
+            <h2 style="color: var(--gold); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 3px; margin: 0;">Честит празник,</h2>
             <h1 id="display-name"></h1>
             <p class="hint">Докосни <span class="highlight">ТУК</span> за теб</p>
         </div>
@@ -257,6 +279,7 @@
     let i = 0;
     let petalInterval;
 
+    // Автоматично попълване от URL
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const nameFromUrl = urlParams.get('name');
@@ -266,28 +289,32 @@
         }
     }
 
-    function startApp(auto = false) {
-        const name = document.getElementById('userName').value;
-        if (!name) return alert("Моля, въведи име.");
-        document.getElementById('display-name').innerText = name + "!";
-        document.getElementById('setup').style.display = 'none';
-        document.getElementById('cardScene').style.display = 'block';
-        if (!auto) playMusic();
-    }
-
     function playMusic() {
         const bgMusic = document.getElementById('bgMusic');
         const magic = document.getElementById('magicSound');
-        magic.play();
+        
+        magic.play().catch(e => console.log("Audio waiting..."));
         bgMusic.currentTime = 30; 
         bgMusic.volume = 0.4;
-        bgMusic.play();
+        bgMusic.play().catch(e => console.log("Music waiting..."));
+    }
+
+    function startApp(auto = false) {
+        const name = document.getElementById('userName').value;
+        if (!name) return alert("Моля, въведи име.");
+        
+        document.getElementById('display-name').innerText = name + "!";
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('cardScene').style.display = 'block';
+
+        if (!auto) playMusic();
     }
 
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
-        playMusic();
+        
+        playMusic(); // Подсигурява звука при първо докосване
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
         petalInterval = setInterval(createPetal, 450);
@@ -299,25 +326,26 @@
             i++;
             setTimeout(typeWriter, 65);
         } else {
-            clearInterval(petalInterval);
+            clearInterval(petalInterval); // Листенцата спират, когато текстът свърши
             setTimeout(() => {
                 const img = document.getElementById('flower');
                 img.classList.add('pop-out');
                 setTimeout(() => {
+                    img.classList.add('alive');
                     document.getElementById('share-area').style.display = 'block';
-                }, 2000);
+                }, 2500);
             }, 800);
         }
     }
 
     function shareToOther(event) {
         event.stopPropagation();
-        const newName = prompt("Въведи името:");
+        const newName = prompt("Въведи името на жената, на която искаш да пратиш картичка:");
         if (newName) {
             const currentUrl = window.location.href.split('?')[0];
             const newUrl = currentUrl + "?name=" + encodeURIComponent(newName);
             navigator.clipboard.writeText(newUrl).then(() => {
-                alert("Линкът за " + newName + " е копиран! ✨");
+                alert("Магическият линк за " + newName + " е копиран! ✨");
             });
         }
     }
