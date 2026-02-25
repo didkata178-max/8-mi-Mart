@@ -27,18 +27,15 @@
         /* НАЧАЛЕН ЕКРАН */
     #setup {
     text-align: center;
-    /* Връщаме снимката и добавяме много фин слой, за да не е твърде бледа */
     background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('1.png');
     background-size: cover;
     background-position: center;
     padding: 50px 20px;
     border-radius: 25px;
-    /* Сянка в цвят пепел от рози, за да изпъкне кутията */
     box-shadow: 0 20px 50px rgba(126, 87, 87, 0.3); 
     position: absolute;
     z-index: 100;
-    /* Рамка в пепел от рози вместо бяла */
-    border: 2px solid #a97171; 
+    border: 2px solid #a97171; /* Рамка пепел от рози */
     width: 85%;
     max-width: 400px;
     box-sizing: border-box;
@@ -48,27 +45,35 @@
     gap: 15px;
 }
 
-        #setup h1 {
-            background: var(--glass);
-            padding: 15px;
-            border-radius: 15px;
-            font-family: 'Great Vibes', cursive;
-            color: var(--rose-pink);
-            font-size: 2.2rem;
-            margin: 0 0 20px 0;
-            backdrop-filter: blur(5px);
-        }
+       #setup h1 {
+    background: rgba(255, 255, 255, 0.4); /* Малко по-прозрачно бяло под текста */
+    padding: 15px;
+    border-radius: 15px;
+    font-family: 'Great Vibes', cursive;
+    color: #000000 !important; /* Ето тук е черното */
+    font-size: 2.2rem;
+    margin: 0 0 10px 0;
+    backdrop-filter: blur(5px);
+    width: 100%; /* За да запълни кутията красиво */
+}
+      input {
+    padding: 15px;
+    /* Сменяме златното със същия цвят като рамката на кутията */
+    border: 2px solid #a97171 !important; 
+    border-radius: 30px;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 85%;
+    outline: none;
+    background: rgba(255, 255, 255, 0.9); /* По-плътно бяло, за да се чете лесно името */
+    color: #000000; /* Името, което се пише, да е черно */
+}
 
-        input {
-            padding: 15px;
-            border: 2px solid var(--gold);
-            border-radius: 30px;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 20px;
-            width: 85%;
-            outline: none;
-        }
+input:focus {
+    /* Когато се кликне в полето, рамката да стане малко по-тъмна */
+    border-color: #7e5757 !important;
+}
 
      button {
     background: linear-gradient(45deg, #a97171, #c99393) !important;
@@ -390,6 +395,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
