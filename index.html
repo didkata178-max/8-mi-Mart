@@ -125,13 +125,13 @@
         }
 
         /* БУКЕТ - Корекция на позицията */
-   #flower {
+#flower {
     position: absolute;
     left: 50%;
-    bottom: 5%; /* Малко по-надолу */
-    /* Ограничаваме ширината до 100% от картичката, за да не стърчи встрани */
-    width: 100%; 
-    max-width: 320px; 
+    bottom: 50px;
+    /* Ограничаваме базовата ширина на картинката */
+    width: 80%; 
+    max-width: 450px; /* Това спира букета да става гигантски на лаптоп */
     opacity: 0;
     mix-blend-mode: normal;
     transform: translateX(-50%) scale(0.1);
@@ -142,9 +142,8 @@
 
 #flower.pop-out {
     opacity: 1;
-    /* Използваме формула: 50% от ширината на екрана + 1.2 мащаб */
-    /* Това ще направи букета пропорционален на всеки дисплей */
-    transform: translateX(-50%) scale(calc(1.1 + 0.8vw)); 
+    /* Увеличаваме го, но контролирано */
+    transform: translateX(-50%) scale(1.3);
 }
         /* БУТОНИ - Пепел от рози */
         button, .share-btn {
@@ -185,13 +184,22 @@
 
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-      @media (max-width: 480px) {
-    /* ... другите ти настройки за текст и сцената ... */
-    
-    #flower.pop-out { 
-        /* За малки телефони 1.1 или 1.2 е супер, за да не излиза встрани */
-        transform: translateX(-50%) scale(1.15); 
+     /* Специално за много големи екрани (лаптопи) */
+@media (min-width: 1024px) {
+    #flower.pop-out {
+        transform: translateX(-50%) scale(1.1); /* На лаптоп 1.1 е напълно достатъчно */
     }
+}
+
+/* Специално за малки телефони */
+@media (max-width: 480px) {
+    #flower {
+        width: 110%; /* На телефона му позволяваме да е малко по-широк */
+    }
+    #flower.pop-out {
+        transform: translateX(-50%) scale(1.1);
+    }
+}
     </style>
 </head>
 <body>
@@ -329,6 +337,7 @@
  
        
           
+
 
 
 
