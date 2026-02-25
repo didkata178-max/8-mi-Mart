@@ -64,15 +64,17 @@
         }
 
         /* КАРТИЧКА - ЦЕНТРИРАНЕ */
-        .scene {
-            width: 90vw;
-            max-width: 380px;
-            height: 80vh;
-            perspective: 2000px;
-            display: none; 
-            justify-content: center;
-            align-items: center;
-        }
+      .scene {
+    width: 90vw;
+    max-width: 380px;
+    height: 80vh;
+    perspective: 2000px;
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    /* Вдигаме картичката нагоре, за да не е забита в долната част */
+    margin-top: -5vh; 
+}
 
         .card {
             width: 100%;
@@ -123,22 +125,25 @@
         }
 
         /* БУКЕТ - Корекция на позицията */
-      #flower {
+   #flower {
     position: absolute;
     left: 50%;
-    bottom: 10%; /* Позиция в долната част */
-    max-width: 140%;
+    bottom: 5%; /* Малко по-надолу */
+    /* Ограничаваме ширината до 100% от картичката, за да не стърчи встрани */
+    width: 100%; 
+    max-width: 320px; 
     opacity: 0;
-    mix-blend-mode: normal; /* Сменяме на normal, за да не прозира текста под него */
+    mix-blend-mode: normal;
     transform: translateX(-50%) scale(0.1);
     transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     pointer-events: none;
-    z-index: 100; /* Вдигаме го над текстовото поле */
+    z-index: 100;
 }
 
 #flower.pop-out {
     opacity: 1;
-    transform: translateX(-50%) scale(1.4); /* Правим го голям и внушителен */
+    /* Мащабът 1.2 е по-безопасен за малки екрани */
+    transform: translateX(-50%) scale(1.25);
 }
         /* БУТОНИ - Пепел от рози */
         button, .share-btn {
@@ -322,6 +327,7 @@
  
        
           
+
 
 
 
