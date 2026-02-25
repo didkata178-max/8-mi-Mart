@@ -25,21 +25,22 @@
         }
 
         /* НАЧАЛЕН ЕКРАН */
-        #setup {
-            text-align: center;
-            background-image: url('1.png');
-            background-size: cover;
-            background-position: center;
-            padding: 50px 20px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-            position: absolute;
-            z-index: 100;
-            border: 3px solid white;
-            width: 85%;
-            max-width: 400px;
-            box-sizing: border-box;
-        }
+       #setup {
+    text-align: center;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('1.png'); /* Леко затъмняване за по-добър контраст */
+    background-size: cover;
+    background-position: center;
+    padding: 50px 20px;
+    border-radius: 30px; /* По-заоблени ъгли за нежност */
+    box-shadow: 0 20px 50px rgba(216, 27, 96, 0.2); /* Розова сянка вместо черна */
+    position: absolute;
+    z-index: 100;
+    border: none; /* Премахваме грубата бяла рамка */
+    width: 85%;
+    max-width: 400px;
+    box-sizing: border-box;
+    backdrop-filter: blur(3px); /* Леко размазване на фона за стил */
+}
 
         #setup h1 {
             background: var(--glass);
@@ -63,19 +64,27 @@
             outline: none;
         }
 
-        button {
-            background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: white;
-            border: none;
-            padding: 15px 45px;
-            border-radius: 35px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
+       button {
+    background: linear-gradient(45deg, #ff85a2, #ffb7c5) !important;
+    color: white !important;
+    border: none !important;
+    padding: 15px 45px;
+    border-radius: 35px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    /* Променяме сянката да е нежно розова */
+    box-shadow: 0 5px 15px rgba(255, 133, 162, 0.4); 
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 133, 162, 0.6);
+    background: linear-gradient(45deg, #ffb7c5, #ff85a2) !important;
+}
 
         /* КАРТИЧКА */
         .scene {
@@ -377,6 +386,7 @@
 
 </body>
 </html>
+
 
 
 
