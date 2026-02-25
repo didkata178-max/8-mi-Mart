@@ -207,17 +207,15 @@ button:hover {
             z-index: 10;
         }
 
-       #flower {
-    /* Добавяме тези два реда за центриране */
+   #flower {
     position: absolute;
     left: 50%;
-    bottom: 20px; /* Регулирай това, ако искаш да е по-нагоре или по-надолу */
-    
-    max-width: 120%;
+    bottom: 20px; 
+    max-width: 150%; /* Увеличихме го малко, за да не се реже */
     max-height: 120%;
     opacity: 0;
     mix-blend-mode: multiply;
-    /* Променяме transform, за да включим центрирането чрез translateX(-50%) */
+    /* Центриране в начално състояние */
     transform: translateX(-50%) translateZ(-50px) scale(0.1);
     transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 10;
@@ -225,7 +223,7 @@ button:hover {
 
 #flower.pop-out {
     opacity: 1;
-    /* Тук също трябва да има translateX(-50%), за да остане в центъра докато изскача */
+    /* Центриране в изскочило състояние */
     transform: translateX(-50%) translateZ(120px) scale(1.4);
 }
         .alive { animation: float 5s ease-in-out infinite; }
@@ -271,11 +269,16 @@ button:hover {
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
         }
 
-    @media (max-width: 480px) {
+  @media (max-width: 480px) {
     /* Настройки за текста */
     #display-name { font-size: 2.8rem; text-align: center; width: 100%; }
     #typing-text { font-size: 1.5rem; text-align: center; padding: 0 15px; }
-    .scene { height: 90vh; display: flex; justify-content: center; }
+    .scene { 
+        height: 100vh; 
+        display: flex; 
+        justify-content: center; 
+        overflow: hidden; /* Спира мърдането на екрана */
+    }
 
     /* Центрираме кутията за име (Първа страница) */
     #setup {
@@ -283,8 +286,8 @@ button:hover {
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         width: 90% !important;
-        max-width: none;
         position: fixed;
+        z-index: 100; /* Държи я най-отгоре, докато не бъде скрита */
     }
 
     /* Центрираме самата КАРТИЧКА (Втора страница) */
@@ -294,18 +297,26 @@ button:hover {
         right: 0 !important;
         display: flex;
         justify-content: center;
+        z-index: 50;
     }
 
-    /* ЦЕНТРИРАНЕ НА БУКЕТА */
+    /* ЦЕНТРИРАНЕ И ГОЛЯМ МАЩАБ НА БУКЕТА */
     #flower.pop-out {
         left: 50% !important;
         right: auto !important;
-        /* translateX(-50%) гарантира центрирането спрямо екрана */
-        transform: translateX(-50%) translateZ(120px) scale(1.1) !important;
+        /* Върнахме scale(1.4), за да е голям букетът */
+        transform: translateX(-50%) translateZ(120px) scale(1.4) !important;
         bottom: 5% !important;
         position: absolute;
     }
 
+    /* Фикс за споделянето */
+    #share-area {
+        bottom: 15px;
+        width: 100%;
+        text-align: center;
+    }
+}
     /* Настройка за бутона за споделяне */
     #share-area {
         width: 100%;
@@ -386,19 +397,31 @@ button:hover {
         }
     }
 
-  function startApp(auto = false) {
-        // Увери се, че тук ID-то съвпада с твоя <input id="...">
-        const nameInput = document.getElementById('userName') || document.getElementById('nameInput');
-        const name = nameInput.value;
+function startApp(auto = false) {
+    // Търсим полето за име (проверяваме и двете възможни ID-та)
+    const nameInput = document.getElementById('userName') || document.getElementById('nameInput');
+    const name = nameInput.value.trim();
 
-        if (!name) return alert("Моля, въведи име.");
-        
-        document.getElementById('display-name').innerText = name + "!";
-        document.getElementById('setup').style.display = 'none';
-        document.getElementById('cardScene').style.display = 'block';
-
-        if (!auto) playMusic();
+    if (!name) {
+        alert("Моля, въведи име.");
+        return;
     }
+
+    // Попълваме името в картичката
+    document.getElementById('display-name').innerText = name + "!";
+
+    // СКРИВАМЕ първата страница и ПОКАЗВАМЕ втората със сила (!important)
+    const setup = document.getElementById('setup');
+    const cardScene = document.getElementById('cardScene');
+    
+    setup.style.setProperty('display', 'none', 'important');
+    cardScene.style.setProperty('display', 'block', 'important');
+
+    // Стартираме музиката, ако не е автоматично отваряне
+    if (!auto) {
+        playMusic();
+    }
+}
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
@@ -454,6 +477,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
