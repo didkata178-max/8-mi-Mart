@@ -142,8 +142,9 @@
 
 #flower.pop-out {
     opacity: 1;
-    /* Мащабът 1.2 е по-безопасен за малки екрани */
-    transform: translateX(-50%) scale(1.25);
+    /* Използваме формула: 50% от ширината на екрана + 1.2 мащаб */
+    /* Това ще направи букета пропорционален на всеки дисплей */
+    transform: translateX(-50%) scale(calc(1.1 + 0.5vw)); 
 }
         /* БУТОНИ - Пепел от рози */
         button, .share-btn {
@@ -184,12 +185,13 @@
 
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-        @media (max-width: 480px) {
-            #display-name { font-size: 2.5rem; }
-            #typing-text { font-size: 1.5rem; padding: 15px; }
-            #flower.pop-out { scale: 1.15; bottom: 40px; }
-            .scene { height: 85vh; }
-        }
+      @media (max-width: 480px) {
+    /* ... другите ти настройки за текст и сцената ... */
+    
+    #flower.pop-out { 
+        /* За малки телефони 1.1 или 1.2 е супер, за да не излиза встрани */
+        transform: translateX(-50%) scale(1.15); 
+    }
     </style>
 </head>
 <body>
@@ -327,6 +329,7 @@
  
        
           
+
 
 
 
