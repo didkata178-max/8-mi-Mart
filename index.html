@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>8-ми Март - Магическа Картичка</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --rose-pink: #d42d4d;
-            --glass: rgba(255, 255, 255, 0.8);
+            --dusty-rose: #a97171;
+            --glass: rgba(255, 255, 255, 0.85);
         }
 
         body {
@@ -19,21 +20,23 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* Спира скролването и местенето */
+            position: fixed; /* Заковава целия екран */
+            width: 100%;
         }
 
         /* НАЧАЛЕН ЕКРАН */
         #setup {
             text-align: center;
-            background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('1.png');
+            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('1.png');
             background-size: cover;
             background-position: center;
             padding: 40px 20px;
             border-radius: 25px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.2); 
             position: fixed;
-            z-index: 2000; /* Винаги най-отгоре */
-            border: 2px solid #a97171;
+            z-index: 2000;
+            border: 2px solid var(--dusty-rose);
             width: 85%;
             max-width: 380px;
             display: flex;
@@ -46,38 +49,29 @@
             color: #000;
             font-size: 2.2rem;
             margin: 0;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.7);
             padding: 10px;
             border-radius: 15px;
         }
 
         input {
             padding: 15px;
-            border: 2px solid #a97171;
+            border: 2px solid var(--dusty-rose);
             border-radius: 30px;
             font-size: 16px;
             text-align: center;
             outline: none;
         }
 
-        button {
-            background: linear-gradient(45deg, #a97171, #c99393);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 35px;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        /* КАРТИЧКА */
+        /* КАРТИЧКА - ЦЕНТРИРАНЕ */
         .scene {
             width: 90vw;
-            max-width: 400px;
+            max-width: 380px;
             height: 80vh;
             perspective: 2000px;
-            display: none; /* Скрита в началото */
+            display: none; 
+            justify-content: center;
+            align-items: center;
         }
 
         .card {
@@ -101,7 +95,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 25px;
             box-sizing: border-box;
         }
 
@@ -111,55 +105,70 @@
         .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.8rem; margin: 0; color: #000; }
         #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--rose-pink); margin: 0; text-align: center; }
 
+        /* ТЕКСТ - По-голям и по-нагоре */
         #typing-text {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.5rem;
-            color: #2c3e50;
+            font-size: 1.7rem;
+            color: #1a252f;
             text-align: center;
             background: var(--glass);
-            padding: 15px;
+            padding: 20px;
             border-radius: 15px;
-            margin-top: 10px;
-            min-height: 120px;
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 160px;
+            line-height: 1.3;
             z-index: 5;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* БУКЕТ */
+        /* БУКЕТ - Корекция на позицията */
         #flower {
             position: absolute;
             left: 50%;
-            bottom: 10%;
-            max-width: 130%;
+            bottom: 50px; /* По-надолу от текста */
+            max-width: 140%;
             opacity: 0;
             mix-blend-mode: multiply;
             transform: translateX(-50%) scale(0.1);
             transition: all 2s ease-out;
             pointer-events: none;
+            z-index: 2;
         }
 
         #flower.pop-out {
             opacity: 1;
-            transform: translateX(-50%) scale(1.3); /* Голям, но центриран */
+            transform: translateX(-50%) scale(1.3);
+        }
+
+        /* БУТОНИ - Пепел от рози */
+        button, .share-btn {
+            background: linear-gradient(45deg, #a97171, #c99393) !important;
+            color: white !important;
+            border: none !important;
+            padding: 15px 25px;
+            border-radius: 35px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(169, 113, 113, 0.4);
+            font-family: 'Montserrat', sans-serif;
         }
 
         #share-area {
             position: absolute;
-            bottom: 20px;
+            bottom: 25px;
             display: none;
             width: 100%;
             text-align: center;
+            z-index: 10;
         }
 
         .share-btn {
-            background: white;
-            color: #a97171;
-            border: 2px solid #a97171;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 12px 20px;
         }
 
-        /* ЛИСТЕНЦА */
         .petal { 
             position: absolute; 
             background: #ffb7c5;
@@ -169,15 +178,13 @@
             animation: fall linear forwards;
         }
 
-        @keyframes fall { 
-            to { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
-        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-        /* МОБИЛНИ КОРЕКЦИИ */
         @media (max-width: 480px) {
-            #display-name { font-size: 2.4rem; }
-            #typing-text { font-size: 1.25rem; }
-            #flower.pop-out { scale: 1.1; bottom: 5%; }
+            #display-name { font-size: 2.5rem; }
+            #typing-text { font-size: 1.5rem; padding: 15px; }
+            #flower.pop-out { scale: 1.15; bottom: 40px; }
+            .scene { height: 85vh; }
         }
     </style>
 </head>
@@ -187,22 +194,18 @@
 
 <div id="setup">
     <h1>Магия за 8-ми Март</h1>
-    <p>Напиши името на дамата:</p>
+    <p style="font-size: 0.9rem; color: #444;">Напиши името на дамата:</p>
     <input type="text" id="userName" placeholder="Име">
     <button onclick="startApp()">СЪЗДАЙ ✨</button>
 </div>
 
 <div class="scene" id="cardScene">
     <div class="card" id="mainCard" onclick="openCard()">
-        
         <div class="face front">
             <h2>Честит празник,</h2>
             <h1 id="display-name"></h1>
-            <p style="position:absolute; bottom:30px; font-size:0.8rem;">
-                Докосни <span style="color:var(--rose-pink); font-weight:bold;">ТУК</span>
-            </p>
+            <p style="position:absolute; bottom:30px; font-size:0.8rem; color:#444;">Докосни <span style="color:var(--rose-pink); font-weight:bold;">ТУК</span> за теб</p>
         </div>
-        
         <div class="face back">
             <div id="typing-text"></div>
             <img src="bouquet.png" id="flower">
@@ -210,8 +213,9 @@
                 <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ НА ДРУГА ДАМА 🎀</button>
             </div>
         </div>
+    </div>
+</div>
 
-    </div> </div> ```
 <script>
     const wish = "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Нека този празник ти донесе безброй усмивки и топлина в сърцето. Честит 8-ми март!";
     let i = 0;
@@ -226,34 +230,37 @@
     }
 
     function startApp(auto = false) {
-        const name = document.getElementById('userName').value.trim();
+        const nameInput = document.getElementById('userName');
+        const name = nameInput.value.trim();
         if (!name) return alert("Моля, въведи име.");
 
         document.getElementById('display-name').innerText = name + "!";
-        
-        // КЛЮЧЪТ: Скриваме едното напълно, показваме другото
         document.getElementById('setup').style.display = 'none';
         document.getElementById('cardScene').style.display = 'flex';
 
-        if (!auto) {
-            const music = document.getElementById('bgMusic');
-            music.volume = 0.5;
-            music.play().catch(() => console.log("Music wait"));
-        }
+        if (!auto) playMusic();
+    }
+
+    function playMusic() {
+        const music = document.getElementById('bgMusic');
+        music.volume = 0.5;
+        music.play().catch(() => console.log("Браузърът чака действие"));
     }
 
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
         
+        playMusic(); // Пускаме музиката точно при отваряне
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
         setInterval(createPetal, 500);
     }
 
     function typeWriter() {
+        const textElement = document.getElementById("typing-text");
         if (i < wish.length) {
-            document.getElementById("typing-text").innerHTML += wish.charAt(i);
+            textElement.innerHTML += wish.charAt(i);
             i++;
             setTimeout(typeWriter, 60);
         } else {
@@ -262,7 +269,7 @@
                 img.classList.add('pop-out');
                 setTimeout(() => {
                     document.getElementById('share-area').style.display = 'block';
-                }, 2000);
+                }, 1500);
             }, 500);
         }
     }
@@ -271,9 +278,11 @@
         event.stopPropagation();
         const newName = prompt("Име на дамата:");
         if (newName) {
-            const newUrl = window.location.href.split('?')[0] + "?name=" + encodeURIComponent(newName);
-            navigator.clipboard.writeText(newUrl);
-            alert("Линкът за " + newName + " е копиран!");
+            const currentUrl = window.location.href.split('?')[0];
+            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName);
+            navigator.clipboard.writeText(newUrl).then(() => {
+                alert("Линкът за " + newName + " е копиран! ✨");
+            });
         }
     }
 
@@ -292,19 +301,8 @@
 </body>
 </html>
    
-     
-
-   
-      
-    
-   
-        
-
- 
 
 
-   
-    
  
 
 
@@ -321,6 +319,7 @@
  
        
           
+
 
 
 
