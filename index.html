@@ -273,8 +273,9 @@ button:hover {
 </head>
 <body>
 
-<audio id="magicSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
-<audio id="bgMusic" loop src="music.mp3" preload="auto"></audio>
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mp3">
+</audio>
 
 <div id="setup">
     <h1>Магия за 8-ми Март</h1>
@@ -319,18 +320,26 @@ button:hover {
         }
     }
 
-    function playMusic() {
+ function playMusic() {
         const bgMusic = document.getElementById('bgMusic');
         const magic = document.getElementById('magicSound');
         
-        magic.play().catch(e => console.log("Audio waiting..."));
-        bgMusic.currentTime = 30; 
-        bgMusic.volume = 0.4;
-        bgMusic.play().catch(e => console.log("Music waiting..."));
+        if (magic) {
+            magic.play().catch(e => console.log("Magic sound blocked"));
+        }
+        
+        if (bgMusic) {
+            // Премахваме currentTime = 30, за да почне отначало, понеже песента е изрязана
+            bgMusic.volume = 0.5;
+            bgMusic.play().catch(e => console.log("Music blocked by browser"));
+        }
     }
 
-    function startApp(auto = false) {
-        const name = document.getElementById('userName').value;
+  function startApp(auto = false) {
+        // Увери се, че тук ID-то съвпада с твоя <input id="...">
+        const nameInput = document.getElementById('userName') || document.getElementById('nameInput');
+        const name = nameInput.value;
+
         if (!name) return alert("Моля, въведи име.");
         
         document.getElementById('display-name').innerText = name + "!";
@@ -339,7 +348,6 @@ button:hover {
 
         if (!auto) playMusic();
     }
-
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
@@ -395,6 +403,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
