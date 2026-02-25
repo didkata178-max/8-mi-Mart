@@ -8,7 +8,7 @@
     <style>
         :root {
             --rose-pink: #d42d4d;
-            --glass: rgba(255, 255, 255, 0.7);
+            --glass: rgba(255, 255, 255, 0.8);
         }
 
         body {
@@ -20,77 +20,64 @@
             margin: 0;
             font-family: 'Montserrat', sans-serif;
             overflow: hidden;
-            touch-action: manipulation;
         }
 
         /* НАЧАЛЕН ЕКРАН */
         #setup {
             text-align: center;
-            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('1.png');
+            background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('1.png');
             background-size: cover;
             background-position: center;
             padding: 40px 20px;
             border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(126, 87, 87, 0.3); 
-            position: absolute;
-            z-index: 1000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2); 
+            position: fixed;
+            z-index: 2000; /* Винаги най-отгоре */
             border: 2px solid #a97171;
             width: 85%;
-            max-width: 400px;
-            box-sizing: border-box;
+            max-width: 380px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 15px;
         }
 
         #setup h1 {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 15px;
-            border-radius: 15px;
             font-family: 'Great Vibes', cursive;
-            color: #000000 !important;
+            color: #000;
             font-size: 2.2rem;
             margin: 0;
-            backdrop-filter: blur(5px);
-            width: 100%;
-            box-sizing: border-box;
+            background: rgba(255,255,255,0.6);
+            padding: 10px;
+            border-radius: 15px;
         }
 
         input {
             padding: 15px;
-            border: 2px solid #a97171 !important; 
+            border: 2px solid #a97171;
             border-radius: 30px;
             font-size: 16px;
             text-align: center;
-            width: 85%;
             outline: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #000000;
         }
 
         button {
-            background: linear-gradient(45deg, #a97171, #c99393) !important;
-            color: white !important;
-            border: none !important;
-            padding: 15px 45px;
+            background: linear-gradient(45deg, #a97171, #c99393);
+            color: white;
+            border: none;
+            padding: 15px;
             border-radius: 35px;
-            cursor: pointer;
             font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(169, 113, 113, 0.4);
-            transition: 0.3s;
+            cursor: pointer;
             text-transform: uppercase;
         }
 
         /* КАРТИЧКА */
         .scene {
             width: 90vw;
-            max-width: 420px;
+            max-width: 400px;
             height: 80vh;
             perspective: 2000px;
-            display: none; /* Първоначално скрита */
-            z-index: 10;
+            display: none; /* Скрита в началото */
         }
 
         .card {
@@ -109,130 +96,99 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 20px;
-            background-image: url('2.png');
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            background: url('2.png') center/cover;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 30px 20px;
+            padding: 20px;
             box-sizing: border-box;
         }
 
-        .face.front h2 {
-            font-family: 'Great Vibes', cursive;
-            color: #000000;
-            font-size: 2.8rem;
-            margin: 0;
-        }
+        .face.front { justify-content: center; }
+        .face.back { transform: rotateY(180deg); justify-content: flex-start; }
 
-        .back { transform: rotateY(180deg); justify-content: flex-start; }
-
-        #display-name { 
-            font-family: 'Great Vibes', cursive; 
-            color: var(--rose-pink); 
-            font-size: 3.2rem; 
-            margin: 0;
-            text-align: center;
-        }
+        .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.8rem; margin: 0; color: #000; }
+        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--rose-pink); margin: 0; text-align: center; }
 
         #typing-text {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #2c3e50;
             text-align: center;
-            line-height: 1.3;
-            width: 100%;
             background: var(--glass);
-            backdrop-filter: blur(8px);
             padding: 15px;
             border-radius: 15px;
             margin-top: 10px;
-            min-height: 140px;
-            box-sizing: border-box;
-            border: none;
+            min-height: 120px;
+            z-index: 5;
         }
 
+        /* БУКЕТ */
         #flower {
             position: absolute;
             left: 50%;
-            bottom: 20px; 
-            max-width: 150%;
+            bottom: 10%;
+            max-width: 130%;
             opacity: 0;
             mix-blend-mode: multiply;
-            transform: translateX(-50%) translateZ(-50px) scale(0.1);
-            transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 5;
+            transform: translateX(-50%) scale(0.1);
+            transition: all 2s ease-out;
+            pointer-events: none;
         }
 
         #flower.pop-out {
             opacity: 1;
-            transform: translateX(-50%) translateZ(120px) scale(1.4);
-        }
-
-        .alive { animation: float 5s ease-in-out infinite; }
-        @keyframes float {
-            0%, 100% { transform: translateX(-50%) translateZ(120px) scale(1.4) translateY(0); }
-            50% { transform: translateX(-50%) translateZ(150px) scale(1.45) translateY(-15px); }
+            transform: translateX(-50%) scale(1.3); /* Голям, но центриран */
         }
 
         #share-area {
             position: absolute;
             bottom: 20px;
+            display: none;
             width: 100%;
             text-align: center;
-            display: none;
-            z-index: 100;
         }
 
         .share-btn {
             background: white;
             color: #a97171;
             border: 2px solid #a97171;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 8px 15px;
+            border-radius: 20px;
             font-weight: bold;
-            cursor: pointer;
         }
 
+        /* ЛИСТЕНЦА */
         .petal { 
             position: absolute; 
-            background: linear-gradient(135deg, #ffb7c5, #d42d4d);
+            background: #ffb7c5;
             border-radius: 150% 0 150% 0; 
             opacity: 0.8; 
-            pointer-events: none; 
-            z-index: 9999; 
+            z-index: 999; 
             animation: fall linear forwards;
         }
 
         @keyframes fall { 
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 
-            10% { opacity: 0.8; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
+            to { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
         }
 
         /* МОБИЛНИ КОРЕКЦИИ */
         @media (max-width: 480px) {
-            #setup { top: 50%; transform: translate(-50%, -50%); }
-            #display-name { font-size: 2.5rem; }
-            #typing-text { font-size: 1.3rem; min-height: 120px; }
-            #flower.pop-out { scale: 1.2; bottom: 5%; }
-            .face.front h2 { font-size: 2.2rem; }
+            #display-name { font-size: 2.4rem; }
+            #typing-text { font-size: 1.25rem; }
+            #flower.pop-out { scale: 1.1; bottom: 5%; }
         }
     </style>
 </head>
 <body>
 
-<audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mp3">
-</audio>
+<audio id="bgMusic" loop><source src="music.mp3" type="audio/mp3"></audio>
 
 <div id="setup">
     <h1>Магия за 8-ми Март</h1>
-    <p style="font-size: 0.9rem; color: #444; margin: 0;">Напиши името на дамата:</p>
-    <input type="text" id="userName" placeholder="Име...">
+    <p>Напиши името на дамата:</p>
+    <input type="text" id="userName" placeholder="Име">
     <button onclick="startApp()">СЪЗДАЙ ✨</button>
 </div>
 
@@ -241,7 +197,7 @@
         <div class="face front">
             <h2>Честит празник,</h2>
             <h1 id="display-name"></h1>
-            <p style="position:absolute; bottom:30px; color:#000; font-size:0.8rem;">Докосни <span style="color:#d42d4d; font-weight:bold;">ТУК</span></p>
+            <p style="position:absolute; bottom:30px; font-size:0.8rem;">Докосни <span style="color:var(--rose-pink); font-weight:bold;">ТУК</span></p>
         </div>
         
         <div class="face back">
@@ -257,80 +213,65 @@
 <script>
     const wish = "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Нека този празник ти донесе безброй усмивки и топлина в сърцето. Честит 8-ми март!";
     let i = 0;
-    let petalInterval;
 
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
-        const nameFromUrl = urlParams.get('name');
-        if (nameFromUrl) {
-            document.getElementById('userName').value = nameFromUrl;
+        const name = urlParams.get('name');
+        if (name) {
+            document.getElementById('userName').value = name;
             startApp(true);
         }
     }
 
-    function playMusic() {
-        const bgMusic = document.getElementById('bgMusic');
-        if (bgMusic) {
-            bgMusic.volume = 0.5;
-            bgMusic.play().catch(e => console.log("Audio waiting for interaction"));
-        }
-    }
-
     function startApp(auto = false) {
-        const nameInput = document.getElementById('userName');
-        const name = nameInput.value.trim();
-
-        if (!name) {
-            alert("Моля, въведи име.");
-            return;
-        }
+        const name = document.getElementById('userName').value.trim();
+        if (!name) return alert("Моля, въведи име.");
 
         document.getElementById('display-name').innerText = name + "!";
         
-        // Скриваме стартовия екран и показваме картичката
+        // КЛЮЧЪТ: Скриваме едното напълно, показваме другото
         document.getElementById('setup').style.display = 'none';
         document.getElementById('cardScene').style.display = 'flex';
 
-        if (!auto) playMusic();
+        if (!auto) {
+            const music = document.getElementById('bgMusic');
+            music.volume = 0.5;
+            music.play().catch(() => console.log("Music wait"));
+        }
     }
 
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
         
-        playMusic();
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
-        petalInterval = setInterval(createPetal, 450);
+        setInterval(createPetal, 500);
     }
 
     function typeWriter() {
         if (i < wish.length) {
             document.getElementById("typing-text").innerHTML += wish.charAt(i);
             i++;
-            setTimeout(typeWriter, 65);
+            setTimeout(typeWriter, 60);
         } else {
-            clearInterval(petalInterval);
             setTimeout(() => {
                 const img = document.getElementById('flower');
                 img.classList.add('pop-out');
                 setTimeout(() => {
-                    img.classList.add('alive');
                     document.getElementById('share-area').style.display = 'block';
-                }, 2500);
-            }, 800);
+                }, 2000);
+            }, 500);
         }
     }
 
     function shareToOther(event) {
         event.stopPropagation();
-        const newName = prompt("Въведи името на дамата:");
+        const newName = prompt("Име на дамата:");
         if (newName) {
-            const currentUrl = window.location.href.split('?')[0];
-            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName);
-            navigator.clipboard.writeText(newUrl).then(() => {
-                alert("Линкът за " + newName + " е копиран! ✨");
-            });
+            const newUrl = window.location.href.split('?')[0] + "?name=" + encodeURIComponent(newName);
+            navigator.clipboard.writeText(newUrl);
+            alert("Линкът за " + newName + " е копиран!");
         }
     }
 
@@ -346,10 +287,23 @@
         setTimeout(() => petal.remove(), 6000);
     }
 </script>
-
 </body>
 </html>
+   
+     
+
+   
+      
     
+   
+        
+
+ 
+
+
+   
+    
+ 
 
 
 
@@ -365,6 +319,7 @@
  
        
           
+
 
 
 
