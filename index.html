@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #d4af37;
             --rose-pink: #d42d4d;
             --glass: rgba(255, 255, 255, 0.7);
         }
@@ -25,75 +24,64 @@
         }
 
         /* НАЧАЛЕН ЕКРАН */
-    #setup {
-    text-align: center;
-    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url('1.png');
-    background-size: cover;
-    background-position: center;
-    padding: 50px 20px;
-    border-radius: 25px;
-    box-shadow: 0 20px 50px rgba(126, 87, 87, 0.3); 
-    position: absolute;
-    z-index: 100;
-    border: 2px solid #a97171; /* Рамка пепел от рози */
-    width: 85%;
-    max-width: 400px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
+        #setup {
+            text-align: center;
+            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('1.png');
+            background-size: cover;
+            background-position: center;
+            padding: 40px 20px;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(126, 87, 87, 0.3); 
+            position: absolute;
+            z-index: 1000;
+            border: 2px solid #a97171;
+            width: 85%;
+            max-width: 400px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
 
-       #setup h1 {
-    background: rgba(255, 255, 255, 0.4); /* Малко по-прозрачно бяло под текста */
-    padding: 15px;
-    border-radius: 15px;
-    font-family: 'Great Vibes', cursive;
-    color: #000000 !important; /* Ето тук е черното */
-    font-size: 2.2rem;
-    margin: 0 0 10px 0;
-    backdrop-filter: blur(5px);
-    width: 100%; /* За да запълни кутията красиво */
-}
-      input {
-    padding: 15px;
-    /* Сменяме златното със същия цвят като рамката на кутията */
-    border: 2px solid #a97171 !important; 
-    border-radius: 30px;
-    font-size: 16px;
-    text-align: center;
-    margin-bottom: 20px;
-    width: 85%;
-    outline: none;
-    background: rgba(255, 255, 255, 0.9); /* По-плътно бяло, за да се чете лесно името */
-    color: #000000; /* Името, което се пише, да е черно */
-}
+        #setup h1 {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            border-radius: 15px;
+            font-family: 'Great Vibes', cursive;
+            color: #000000 !important;
+            font-size: 2.2rem;
+            margin: 0;
+            backdrop-filter: blur(5px);
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-input:focus {
-    /* Когато се кликне в полето, рамката да стане малко по-тъмна */
-    border-color: #7e5757 !important;
-}
+        input {
+            padding: 15px;
+            border: 2px solid #a97171 !important; 
+            border-radius: 30px;
+            font-size: 16px;
+            text-align: center;
+            width: 85%;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+        }
 
-     button {
-    background: linear-gradient(45deg, #a97171, #c99393) !important;
-    color: white !important;
-    border: none !important;
-    padding: 15px 45px;
-    border-radius: 35px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1.1rem;
-    box-shadow: 0 5px 15px rgba(169, 113, 113, 0.4);
-    transition: 0.3s;
-    text-transform: uppercase;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(45deg, #c99393, #a97171) !important;
-    box-shadow: 0 8px 20px rgba(169, 113, 113, 0.5);
-}
+        button {
+            background: linear-gradient(45deg, #a97171, #c99393) !important;
+            color: white !important;
+            border: none !important;
+            padding: 15px 45px;
+            border-radius: 35px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(169, 113, 113, 0.4);
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
 
         /* КАРТИЧКА */
         .scene {
@@ -101,7 +89,8 @@ button:hover {
             max-width: 420px;
             height: 80vh;
             perspective: 2000px;
-            display: none;
+            display: none; /* Първоначално скрита */
+            z-index: 10;
         }
 
         .card {
@@ -112,155 +101,110 @@ button:hover {
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-       .card.open { transform: rotateY(-175deg); }
+        .card.open { transform: rotateY(-175deg); }
 
-        /* Първо е стилът за заглавието */
-.face.front h2 {
-    font-family: 'Great Vibes', cursive !important;
-    color: #000000 !important;
-    font-size: 3rem !important;
-    margin: 0 !important;
-    font-weight: 400 !important;
-    text-transform: none !important;
-    letter-spacing: 0 !important;
-}
-
-/* След това започва стилът за самата страна на картичката */
-.face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 20px;
-    background-image: url('2.png');
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 20px;
-    box-sizing: border-box;
-}
-       .back { 
-            transform: rotateY(180deg);
-            justify-content: flex-start;
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            background-image: url('2.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            box-sizing: border-box;
         }
+
+        .face.front h2 {
+            font-family: 'Great Vibes', cursive;
+            color: #000000;
+            font-size: 2.8rem;
+            margin: 0;
+        }
+
+        .back { transform: rotateY(180deg); justify-content: flex-start; }
 
         #display-name { 
             font-family: 'Great Vibes', cursive; 
             color: var(--rose-pink); 
-            font-size: 3.5rem; 
-            margin: 0; 
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
+            font-size: 3.2rem; 
+            margin: 0;
+            text-align: center;
         }
 
-        .hint {
-           position: absolute;
-    bottom: 40px;
-    color: #000000 !important; /* Това променя текста в черно */
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 500;
-        }
-
-       .highlight {
-    font-size: 2rem;
-    font-family: 'Great Vibes', cursive;
-    color: var(--rose-pink) !important; /* Гарантираме, че остава розово */
-    animation: magic-pulse 1.5s infinite;
-}
-
-        /* ТЕКСТОВО ПОЛЕ БЕЗ БЯЛА ЧЕРТА */
-       #typing-text {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.8rem;
-    color: #2c3e50;
-    text-align: center;
-    line-height: 1.3;
-    width: 100%;
-    background: var(--glass);
-    backdrop-filter: blur(8px);
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 10px;
-    min-height: 160px;
-    box-sizing: border-box;
-    z-index: 5;
-    /* Ето тук са важните промени: */
-    border: none !important;
-    outline: none !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-}
-        .bouquet-wrap {
-            position: absolute;
-            top: 60%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        #typing-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.6rem;
+            color: #2c3e50;
+            text-align: center;
+            line-height: 1.3;
             width: 100%;
-            height: 350px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 10px;
+            min-height: 140px;
+            box-sizing: border-box;
+            border: none;
         }
 
-   #flower {
-    position: absolute;
-    left: 50%;
-    bottom: 20px; 
-    max-width: 150%; /* Увеличихме го малко, за да не се реже */
-    max-height: 120%;
-    opacity: 0;
-    mix-blend-mode: multiply;
-    /* Центриране в начално състояние */
-    transform: translateX(-50%) translateZ(-50px) scale(0.1);
-    transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 10;
-}
+        #flower {
+            position: absolute;
+            left: 50%;
+            bottom: 20px; 
+            max-width: 150%;
+            opacity: 0;
+            mix-blend-mode: multiply;
+            transform: translateX(-50%) translateZ(-50px) scale(0.1);
+            transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 5;
+        }
 
-#flower.pop-out {
-    opacity: 1;
-    /* Центриране в изскочило състояние */
-    transform: translateX(-50%) translateZ(120px) scale(1.4);
-}
+        #flower.pop-out {
+            opacity: 1;
+            transform: translateX(-50%) translateZ(120px) scale(1.4);
+        }
+
         .alive { animation: float 5s ease-in-out infinite; }
         @keyframes float {
-            0%, 100% { transform: translateZ(120px) scale(1.4) translateY(0); }
-            50% { transform: translateZ(150px) scale(1.45) translateY(-20px); }
+            0%, 100% { transform: translateX(-50%) translateZ(120px) scale(1.4) translateY(0); }
+            50% { transform: translateX(-50%) translateZ(150px) scale(1.45) translateY(-15px); }
         }
 
         #share-area {
             position: absolute;
             bottom: 20px;
-            z-index: 20;
+            width: 100%;
+            text-align: center;
             display: none;
+            z-index: 100;
         }
 
         .share-btn {
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--gold);
-            border: 1px solid var(--gold);
+            background: white;
+            color: #a97171;
+            border: 2px solid #a97171;
             padding: 10px 20px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 1px;
-            border-radius: 20px;
+            border-radius: 25px;
+            font-weight: bold;
             cursor: pointer;
         }
 
-        /* ВИДИМИ ЛИСТЕНЦА */
         .petal { 
             position: absolute; 
             background: linear-gradient(135deg, #ffb7c5, #d42d4d);
             border-radius: 150% 0 150% 0; 
             opacity: 0.8; 
             pointer-events: none; 
-            z-index: 999; 
-            box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+            z-index: 9999; 
+            animation: fall linear forwards;
         }
 
         @keyframes fall { 
@@ -269,68 +213,14 @@ button:hover {
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
         }
 
-  @media (max-width: 480px) {
-    /* Настройки за текста */
-    #display-name { font-size: 2.8rem; text-align: center; width: 100%; }
-    #typing-text { font-size: 1.5rem; text-align: center; padding: 0 15px; }
-    .scene { 
-        height: 100vh; 
-        display: flex; 
-        justify-content: center; 
-        overflow: hidden; /* Спира мърдането на екрана */
-    }
-
-    /* Центрираме кутията за име (Първа страница) */
-    #setup {
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        width: 90% !important;
-        position: fixed;
-        z-index: 100; /* Държи я най-отгоре, докато не бъде скрита */
-    }
-
-    /* Центрираме самата КАРТИЧКА (Втора страница) */
-    .card-container {
-        margin: 0 auto !important;
-        left: 0 !important;
-        right: 0 !important;
-        display: flex;
-        justify-content: center;
-        z-index: 50;
-    }
-
-    /* ЦЕНТРИРАНЕ И ГОЛЯМ МАЩАБ НА БУКЕТА */
-    #flower.pop-out {
-        left: 50% !important;
-        right: auto !important;
-        /* Върнахме scale(1.4), за да е голям букетът */
-        transform: translateX(-50%) translateZ(120px) scale(1.4) !important;
-        bottom: 5% !important;
-        position: absolute;
-    }
-
-    /* Фикс за споделянето */
-    #share-area {
-        bottom: 15px;
-        width: 100%;
-        text-align: center;
-    }
-}
-    /* Настройка за бутона за споделяне */
-    #share-area {
-        width: 100%;
-        text-align: center;
-        bottom: 20px;
-    }
-}
-
-    /* Настройка на зоната за споделяне, за да не пречи */
-    #share-area {
-        bottom: 10px;
-        width: 90%;
-    }
-}
+        /* МОБИЛНИ КОРЕКЦИИ */
+        @media (max-width: 480px) {
+            #setup { top: 50%; transform: translate(-50%, -50%); }
+            #display-name { font-size: 2.5rem; }
+            #typing-text { font-size: 1.3rem; min-height: 120px; }
+            #flower.pop-out { scale: 1.2; bottom: 5%; }
+            .face.front h2 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -341,9 +231,8 @@ button:hover {
 
 <div id="setup">
     <h1>Магия за 8-ми Март</h1>
-    <p style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">Напиши името на жената, която искаш да зарадваш:</p>
-    <input type="text" id="userName" placeholder="Име">
-    <br>
+    <p style="font-size: 0.9rem; color: #444; margin: 0;">Напиши името на дамата:</p>
+    <input type="text" id="userName" placeholder="Име...">
     <button onclick="startApp()">СЪЗДАЙ ✨</button>
 </div>
 
@@ -352,14 +241,12 @@ button:hover {
         <div class="face front">
             <h2>Честит празник,</h2>
             <h1 id="display-name"></h1>
-            <p class="hint">Докосни <span class="highlight">ТУК</span> за теб</p>
+            <p style="position:absolute; bottom:30px; color:#000; font-size:0.8rem;">Докосни <span style="color:#d42d4d; font-weight:bold;">ТУК</span></p>
         </div>
         
         <div class="face back">
             <div id="typing-text"></div>
-            <div class="bouquet-wrap">
-                <img src="bouquet.png" id="flower">
-            </div>
+            <img src="bouquet.png" id="flower">
             <div id="share-area">
                 <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ НА ДРУГА ДАМА 🎀</button>
             </div>
@@ -372,7 +259,6 @@ button:hover {
     let i = 0;
     let petalInterval;
 
-    // Автоматично попълване от URL
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const nameFromUrl = urlParams.get('name');
@@ -382,51 +268,37 @@ button:hover {
         }
     }
 
- function playMusic() {
+    function playMusic() {
         const bgMusic = document.getElementById('bgMusic');
-        const magic = document.getElementById('magicSound');
-        
-        if (magic) {
-            magic.play().catch(e => console.log("Magic sound blocked"));
-        }
-        
         if (bgMusic) {
-            // Премахваме currentTime = 30, за да почне отначало, понеже песента е изрязана
             bgMusic.volume = 0.5;
-            bgMusic.play().catch(e => console.log("Music blocked by browser"));
+            bgMusic.play().catch(e => console.log("Audio waiting for interaction"));
         }
     }
 
-function startApp(auto = false) {
-    // Търсим полето за име (проверяваме и двете възможни ID-та)
-    const nameInput = document.getElementById('userName') || document.getElementById('nameInput');
-    const name = nameInput.value.trim();
+    function startApp(auto = false) {
+        const nameInput = document.getElementById('userName');
+        const name = nameInput.value.trim();
 
-    if (!name) {
-        alert("Моля, въведи име.");
-        return;
+        if (!name) {
+            alert("Моля, въведи име.");
+            return;
+        }
+
+        document.getElementById('display-name').innerText = name + "!";
+        
+        // Скриваме стартовия екран и показваме картичката
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('cardScene').style.display = 'flex';
+
+        if (!auto) playMusic();
     }
 
-    // Попълваме името в картичката
-    document.getElementById('display-name').innerText = name + "!";
-
-    // СКРИВАМЕ първата страница и ПОКАЗВАМЕ втората със сила (!important)
-    const setup = document.getElementById('setup');
-    const cardScene = document.getElementById('cardScene');
-    
-    setup.style.setProperty('display', 'none', 'important');
-    cardScene.style.setProperty('display', 'block', 'important');
-
-    // Стартираме музиката, ако не е автоматично отваряне
-    if (!auto) {
-        playMusic();
-    }
-}
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
         
-        playMusic(); // Подсигурява звука при първо докосване
+        playMusic();
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
         petalInterval = setInterval(createPetal, 450);
@@ -438,7 +310,7 @@ function startApp(auto = false) {
             i++;
             setTimeout(typeWriter, 65);
         } else {
-            clearInterval(petalInterval); // Листенцата спират, когато текстът свърши
+            clearInterval(petalInterval);
             setTimeout(() => {
                 const img = document.getElementById('flower');
                 img.classList.add('pop-out');
@@ -452,12 +324,12 @@ function startApp(auto = false) {
 
     function shareToOther(event) {
         event.stopPropagation();
-        const newName = prompt("Въведи името на жената, на която искаш да пратиш картичка:");
+        const newName = prompt("Въведи името на дамата:");
         if (newName) {
             const currentUrl = window.location.href.split('?')[0];
             const newUrl = currentUrl + "?name=" + encodeURIComponent(newName);
             navigator.clipboard.writeText(newUrl).then(() => {
-                alert("Магическият линк за " + newName + " е копиран! ✨");
+                alert("Линкът за " + newName + " е копиран! ✨");
             });
         }
     }
@@ -469,7 +341,7 @@ function startApp(auto = false) {
         const size = Math.random() * 15 + 10 + 'px';
         petal.style.width = size;
         petal.style.height = size;
-        petal.style.animation = `fall ${Math.random() * 2 + 4}s linear forwards`;
+        petal.style.animationDuration = (Math.random() * 2 + 4) + 's';
         document.body.appendChild(petal);
         setTimeout(() => petal.remove(), 6000);
     }
@@ -477,6 +349,24 @@ function startApp(auto = false) {
 
 </body>
 </html>
+    
+
+
+
+
+        
+
+
+    
+
+
+
+
+ 
+       
+          
+
+
 
 
 
