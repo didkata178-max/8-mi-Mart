@@ -271,29 +271,48 @@ button:hover {
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } 
         }
 
-     @media (max-width: 480px) {
+    @media (max-width: 480px) {
     /* Настройки за текста */
-    #display-name { font-size: 2.8rem; }
-    #typing-text { font-size: 1.5rem; }
-    .scene { height: 90vh; }
+    #display-name { font-size: 2.8rem; text-align: center; width: 100%; }
+    #typing-text { font-size: 1.5rem; text-align: center; padding: 0 15px; }
+    .scene { height: 90vh; display: flex; justify-content: center; }
 
-    /* Центрираме кутията за име в средата на екрана */
+    /* Центрираме кутията за име (Първа страница) */
     #setup {
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         width: 90% !important;
         max-width: none;
+        position: fixed;
+    }
+
+    /* Центрираме самата КАРТИЧКА (Втора страница) */
+    .card-container {
+        margin: 0 auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        display: flex;
+        justify-content: center;
     }
 
     /* ЦЕНТРИРАНЕ НА БУКЕТА */
     #flower.pop-out {
         left: 50% !important;
         right: auto !important;
-        /* Важно: translateX(-50%) го центрира, а scale(1.1) го държи голям, но в рамките на екрана */
+        /* translateX(-50%) гарантира центрирането спрямо екрана */
         transform: translateX(-50%) translateZ(120px) scale(1.1) !important;
         bottom: 5% !important;
+        position: absolute;
     }
+
+    /* Настройка за бутона за споделяне */
+    #share-area {
+        width: 100%;
+        text-align: center;
+        bottom: 20px;
+    }
+}
 
     /* Настройка на зоната за споделяне, за да не пречи */
     #share-area {
@@ -435,6 +454,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
