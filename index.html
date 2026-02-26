@@ -59,7 +59,7 @@
             text-align: center;
             outline: none;
         }
-        #wishSelect {
+     #wishSelect {
     padding: 12px;
     border: 2px solid var(--dusty-rose);
     border-radius: 30px;
@@ -72,8 +72,8 @@
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    margin-bottom: 10px;
-} /* <-- ТАЗИ СКОБА ЗАТВАРЯ WISHSELECT */
+    margin-top: 10px;
+}
 
         /* СЦЕНА И КАРТИЧКА */
         .scene {
@@ -227,14 +227,14 @@
     <h1>Магия за 8-ми Март</h1>
     <p style="font-size: 0.9rem; color: #444;">Напиши името на дамата:</p>
     <input type="text" id="userName" placeholder="Име">
-
-    <p style="font-size: 0.85rem; color: #666; margin-top: 10px; margin-bottom: 5px;">Избери пожелание:</p>
+    
     <select id="wishSelect">
-        <option value="0">🌹 Класическо (за приятелка)</option>
+        <option value="0">🌹 Класическо</option>
         <option value="1">❤️ За любима жена</option>
         <option value="2">👩‍👧 За мама</option>
         <option value="3">💼 За колежка</option>
     </select>
+
     <button onclick="startApp()" style="margin-top: 15px;">СЪЗДАЙ ✨</button>
 </div>
 
@@ -256,15 +256,14 @@
     <img src="bouquet.png" id="flower"> 
 <script>
     const wishes = [
-    "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Нека този празник ти донесе безброй усмивки и топлина в сърцето. Честит 8-ми Март!",
-    "Ти си истинско вдъхновение! Желая ти пролетта да разцъфне в душата ти, а щастието да бъде твой постоянен спътник. Бъди здрава и обичана. Честит празник!",
-    "Нека всеки твой ден бъде изпълнен с красота, нежност и любов. Продължавай да озаряваш света около себе си със своята доброта. Прекрасен 8-ми Март!",
-    "На най-прекрасната жена – пожелавам ти безкрайно море от радост и сърце, пълно с обич. Отивай смело към мечтите си! Честит 8-ми Март!"
+    "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Честит 8-ми Март!",
+    "Ти си моето вдъхновение! Желая ти цялото щастие на света, защото го заслужаваш. Обичам те!",
+    "Мила мамо, благодаря ти за добротата и любовта. Бъди здрава и все така усмихната!",
+    "Уважаема колежке, пожелавам Ви здраве, успехи и много радостни моменти. Честит празник!"
 ];
 
-// Избираме едно случайно пожелание от списъка
-let wish = wishes[Math.floor(Math.random() * wishes.length)];
-let i = 0; // Брояч за пишещата машина
+let wish = ""; 
+let i = 0;
  window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const name = urlParams.get('name');
@@ -274,17 +273,29 @@ let i = 0; // Брояч за пишещата машина
         }
     }
 
-    function startApp(auto = false) {
-        const nameInput = document.getElementById('userName');
-        const name = nameInput.value.trim();
-        if (!name) return alert("Моля, въведи име.");
+  function startApp(auto = false) {
+    const nameInput = document.getElementById('userName');
+    const name = nameInput.value.trim();
+    const select = document.getElementById('wishSelect'); // Взимаме менюто
 
-        document.getElementById('display-name').innerText = name + "!";
-        document.getElementById('setup').style.display = 'none';
-        document.getElementById('cardScene').style.display = 'flex';
-        if (!auto) playMusic();
+    if (!name) return alert("Моля, въведи име.");
+
+    // ЛОГИКА ЗА ИЗБОР НА ТЕКСТ:
+    if (!auto) {
+        // Ако потребителят сега натиска бутона "СЪЗДАЙ"
+        wish = wishes[select.value]; 
+    } else {
+        // Ако някой е отворил готов линк с име
+        const urlParams = new URLSearchParams(window.location.search);
+        const wishIndex = urlParams.get('w') || 0; // Взимаме "w" от линка
+        wish = wishes[wishIndex];
     }
 
+    document.getElementById('display-name').innerText = name + "!";
+    document.getElementById('setup').style.display = 'none';
+    document.getElementById('cardScene').style.display = 'flex';
+    if (!auto) playMusic();
+}
     function playMusic() {
         const music = document.getElementById('bgMusic');
         music.volume = 0.5;
@@ -361,6 +372,7 @@ let i = 0; // Брояч за пишещата машина
  
        
           
+
 
 
 
