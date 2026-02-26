@@ -13,54 +13,55 @@
             font-family: 'Montserrat', sans-serif; overflow: hidden;
         }
 
-        /* НАЧАЛЕН ЕКРАН */
+        /* НАЧАЛЕН ЕКРАН - СЕГА Е СКРИТ ПЪРВОНАЧАЛНО */
         #setup {
             background: white; padding: 30px; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             position: fixed; z-index: 3000; width: 85%; max-width: 350px;
             text-align: center; border: 2px solid #a97171;
+            display: none; /* Скриваме го в началото */
         }
 
-        #setup h1 { font-family: 'Great Vibes', cursive; font-size: 2.5rem; margin-bottom: 20px; }
+        #setup h1 { font-family: 'Great Vibes', cursive; font-size: 2.2rem; margin-bottom: 15px; }
 
-        /* СТИЛ ЗА МЕНЮТО - ТУК Е ВАЖНО */
         input, select {
             width: 100%; padding: 12px; margin: 10px 0;
             border: 2px solid #d4a5a5; border-radius: 25px;
             font-size: 16px; text-align: center; display: block;
+            box-sizing: border-box;
         }
 
         #startBtn {
             background: #a97171; color: white; border: none;
-            padding: 15px 30px; border-radius: 25px; font-weight: bold;
+            padding: 15px; border-radius: 25px; font-weight: bold;
             cursor: pointer; width: 100%; margin-top: 10px;
         }
 
         /* КАРТИЧКА */
-        .scene { width: 90vw; max-width: 380px; height: 70vh; perspective: 2000px; display: none; position: relative; }
+        .scene { width: 90vw; max-width: 380px; height: 75vh; perspective: 2000px; display: flex; position: relative; }
         .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1.5s; }
         .card.open { transform: rotateY(-175deg); }
 
         .face {
             position: absolute; width: 100%; height: 100%;
             backface-visibility: hidden; border-radius: 20px;
-            background: url('2.png') center/cover no-repeat; /* ОРИГИНАЛЕН ФОН */
+            background: url('2.png') center/cover no-repeat;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .face.back {
             transform: rotateY(180deg);
-            display: flex; flex-direction: column; align-items: center; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; padding: 25px;
             position: relative;
-            /* ТУК НЯМА СВЕТЪЛ СЛОЙ - ЩЕ Е КАТО СНИМКАТА */
         }
 
-        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #a97171; margin-top: 40%; text-align: center; }
+        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #a97171; margin-top: 35%; text-align: center; }
         
         #typing-text {
             font-family: 'Great Vibes', cursive; font-size: 1.6rem;
             color: #000; text-align: center; margin-top: 20px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.8); /* Правим текста четим върху тъмен фон */
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            line-height: 1.3;
         }
 
         #share-area {
@@ -73,8 +74,9 @@
             padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;
         }
 
+        /* БУКЕТ */
         #flower {
-            position: fixed; left: 50%; bottom: -200px; height: 55vh;
+            position: fixed; left: 50%; bottom: -200px; height: 60vh;
             transform: translateX(-50%) scale(0.5); transition: all 2s;
             z-index: 9999; opacity: 0; pointer-events: none;
         }
@@ -90,7 +92,7 @@
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mp3"></audio>
 
 <div id="setup">
-    <h1>За теб...</h1>
+    <h1>Направи магия за друга дама</h1>
     <input type="text" id="userName" placeholder="Име на дамата">
     <select id="wishSelect">
         <option value="0">🌹 Класическо пожелание</option>
@@ -98,18 +100,19 @@
         <option value="2">👩‍👧 За най-добрата майка</option>
         <option value="3">💼 За уважавана колежка</option>
     </select>
-    <button id="startBtn" onclick="startApp()">СЪЗДАЙ ✨</button>
+    <button id="startBtn" onclick="copyMagicLink()">КОПИРАЙ ЛИНК ✨</button>
+    <button onclick="document.getElementById('setup').style.display='none'" style="background:none; border:none; color:gray; cursor:pointer; margin-top:10px;">Отказ</button>
 </div>
 
 <div class="scene" id="cardScene">
     <div class="card" id="mainCard" onclick="openCard()">
         <div class="face front">
-            <h1 id="display-name"></h1>
+            <h1 id="display-name">За теб!</h1>
         </div>
         <div class="face back">
             <div id="typing-text"></div>
             <div id="share-area">
-                <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ КАРТИЧКА 🎀</button>
+                <button class="share-btn" onclick="showSetup(event)">ИЗПРАТИ НА ДРУГА ДАМА 🎀</button>
             </div>
         </div>
     </div>
@@ -125,24 +128,29 @@
         "Уважаема колежке, пожелавам Ви здраве, успехи и много радостни моменти. Честит празник!"
     ];
 
-    let i = 0; let selectedWish = "";
+    let i = 0; 
+    let selectedWish = "";
 
-    function startApp() {
-        const name = document.getElementById('userName').value.trim();
-        const wishIndex = document.getElementById('wishSelect').value;
-        if (!name) return alert("Моля, въведи име.");
+    // ПРИ ЗАРЕЖДАНЕ: Вземаме името и пожеланието от линка
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        const wishIndex = urlParams.get('w') || 0;
 
-        selectedWish = wishes[wishIndex];
-        document.getElementById('display-name').innerText = name + "!";
-        document.getElementById('setup').style.display = 'none';
-        document.getElementById('cardScene').style.display = 'flex';
+        if (name) {
+            document.getElementById('display-name').innerText = name + "!";
+            selectedWish = wishes[wishIndex];
+        } else {
+            document.getElementById('display-name').innerText = "За теб!";
+            selectedWish = wishes[0];
+        }
     }
 
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
         
-        document.getElementById('bgMusic').play();
+        document.getElementById('bgMusic').play().catch(() => {});
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
         setInterval(createPetal, 500);
@@ -151,24 +159,38 @@
     function typeWriter() {
         if (i < selectedWish.length) {
             document.getElementById("typing-text").innerHTML += selectedWish.charAt(i);
-            i++; setTimeout(typeWriter, 60);
+            i++; 
+            setTimeout(typeWriter, 60);
         } else {
             setTimeout(() => {
                 document.getElementById('flower').classList.add('pop-out');
-                setTimeout(() => document.getElementById('share-area').style.display = 'block', 2000);
+                setTimeout(() => {
+                    document.getElementById('share-area').style.display = 'block';
+                }, 2000);
             }, 1000);
         }
     }
 
-    function shareToOther(event) {
+    // ПОКАЗВА ФОРМАТА ЗА НОВО ПОЖЕЛАНИЕ
+    function showSetup(event) {
         event.stopPropagation();
-        const newName = prompt("Име на дамата:");
-        if (newName) {
-            const currentUrl = window.location.href.split('?')[0];
-            const wishIdx = document.getElementById('wishSelect').value;
-            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName) + "&w=" + wishIdx;
-            navigator.clipboard.writeText(newUrl).then(() => alert("Линкът е копиран!"));
-        }
+        document.getElementById('setup').style.display = 'block';
+    }
+
+    // ГЕНЕРИРА И КОПИРА НОВИЯ ЛИНК
+    function copyMagicLink() {
+        const name = document.getElementById('userName').value.trim();
+        const wishIdx = document.getElementById('wishSelect').value;
+        
+        if (!name) return alert("Моля, въведеди име.");
+
+        const baseUrl = window.location.href.split('?')[0];
+        const newUrl = `${baseUrl}?name=${encodeURIComponent(name)}&w=${wishIdx}`;
+        
+        navigator.clipboard.writeText(newUrl).then(() => {
+            alert(`Линкът за ${name} е готов и копиран! Можеш да го пратиш в Messenger или Viber. ✨`);
+            document.getElementById('setup').style.display = 'none';
+        });
     }
 
     function createPetal() {
@@ -183,32 +205,7 @@
 </script>
 </body>
 </html>
-
-      
-  
-   
-      
- 
-         
-     
-     
-      
-  
-      
-
-        
        
-    
-   
-
- 
-
-
-
-    
-    
-
-
    
      
  
@@ -227,6 +224,7 @@
  
        
           
+
 
 
 
