@@ -123,7 +123,59 @@
             z-index: 5;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
+/* НОВИТЕ СТИЛОВЕ ЗА НАДПИСА ОТДОЛУ */
+.face.front p {
+    position: absolute;
+    bottom: 40px; 
+    font-size: 1.2rem; /* Увеличен размер */
+    color: #333;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.6); /* Полупрозрачен фон за четливост */
+    padding: 8px 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* Анимация за пулсиране */
+    animation: pulse-text 2s infinite ease-in-out;
+}
 
+/* Правим думата "ТУК" по-ярка */
+.face.front p span {
+    color: var(--rose-pink);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.tap-hint {
+    position: absolute;
+    bottom: 45px; /* Малко по-нагоре за по-добра видимост */
+    font-size: 1.3rem !important; /* ГОЛЯМ И ЧЕТЛИВ */
+    color: #333;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.7); /* По-плътен фон */
+    padding: 10px 25px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 0;
+    animation: pulse-tap 2s infinite ease-in-out;
+    cursor: pointer;
+}
+
+.tap-hint span {
+    color: var(--rose-pink);
+    font-weight: 800;
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+/* Анимация за пулсиране */
+@keyframes pulse-tap {
+    0%, 100% { transform: scale(1); background: rgba(255, 255, 255, 0.7); }
+    50% { transform: scale(1.1); background: rgba(255, 255, 255, 0.9); }
+}
+/* Дефиниция на анимацията за пулсиране */
+@keyframes pulse-text {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
         /* БУКЕТ - Корекция на позицията */
 #flower {
     position: absolute;
@@ -215,11 +267,11 @@
 
 <div class="scene" id="cardScene">
     <div class="card" id="mainCard" onclick="openCard()">
-        <div class="face front">
-            <h2>Честит празник,</h2>
-            <h1 id="display-name"></h1>
-            <p style="position:absolute; bottom:30px; font-size:0.8rem; color:#444;">Докосни <span style="color:var(--rose-pink); font-weight:bold;">ТУК</span> за теб</p>
-        </div>
+   <div class="face front">
+    <h2>Честит празник,</h2>
+    <h1 id="display-name"></h1>
+    <p class="tap-hint">Докосни <span>ТУК</span> за теб</p>
+</div>
         <div class="face back">
             <div id="typing-text"></div>
             <img src="bouquet.png" id="flower">
@@ -337,6 +389,7 @@
  
        
           
+
 
 
 
