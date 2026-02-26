@@ -218,12 +218,37 @@
             width: 100%;
             text-align: center;
             z-index: 10;
-        }
+     /* ОБНОВЕНИ БУТОНИ - Стил "Пепел от рози" (в хармония с подсказката) */
+button, .share-btn {
+    /* Използваме лек фон, за да си отива с новия надпис отпред */
+    background: rgba(255, 255, 255, 0.9) !important; 
+    color: #a97171 !important; /* Текст в цвят пепел от рози */
+    border: 2px solid #a97171 !important; /* Рамка в същия цвят */
+    padding: 12px 25px;
+    border-radius: 35px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(169, 113, 113, 0.2);
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+/* Ефект при натискане */
+button:active, .share-btn:active {
+    transform: scale(0.95);
+    background: #a97171 !important;
+    color: white !important;
+}
 
-        .share-btn {
-            font-size: 0.8rem;
-            padding: 12px 20px;
-        }
+#share-area {
+    position: absolute;
+    bottom: 25px;
+    display: none;
+    width: 100%;
+    text-align: center;
+    z-index: 110; /* Увеличаваме го, за да е над букета */
+}
 
         .petal { 
             position: absolute; 
@@ -389,6 +414,7 @@
  
        
           
+
 
 
 
