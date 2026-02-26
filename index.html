@@ -59,7 +59,8 @@
             text-align: center;
             outline: none;
         }
-     #wishSelect {
+ /* Правим менюто да изглежда красиво и да има разстояние */
+#wishSelect {
     padding: 12px;
     border: 2px solid var(--dusty-rose);
     border-radius: 30px;
@@ -72,10 +73,9 @@
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    margin-top: 10px;
+    margin-top: 15px; /* Дава разстояние от името */
 }
-
-        /* СЦЕНА И КАРТИЧКА */
+     /* СЦЕНА И КАРТИЧКА */
         .scene {
             width: 90vw;
             max-width: 380px;
@@ -155,19 +155,18 @@
             z-index: 5;
         }
 
-       #flower {
-    position: fixed; /* Вече се движи спрямо екрана, а не спрямо картичката */
+   #flower {
+    position: fixed;
     left: 50%;
-    bottom: -100px; /* Скриваме го първоначално под екрана */
-    height: 65vh;   /* Правим го висок и внушителен */
+    bottom: -100px;
+    height: 65vh;   /* Твоята настройка */
     width: auto;
     opacity: 0;
     transform: translateX(-50%) scale(0.1);
     transition: all 2.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     pointer-events: none;
-    z-index: 500; /* Да е най-отгоре над всичко */
+    z-index: 9999; /* Променено на много високо, за да е най-отгоре */
 }
-
 #flower.pop-out {
     opacity: 1;
     bottom: 5vh; /* Изскача нагоре на 5% от дъното на екрана */
@@ -190,24 +189,23 @@
 
         button:active { transform: scale(0.95); }
 
-        #share-area {
-            position: absolute;
-            bottom: 25px;
-            display: none;
-            width: 100%;
-            text-align: center;
-            z-index: 110;
-        }
+   #share-area {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+    position: relative;
+    /* Намаляваме z-index, за да може букетът (който е 9999) да е над него */
+    z-index: 100; 
+    /* Увеличаваме разстоянието, за да избягаме от лентата на телефона */
+    padding-bottom: 80px; 
+}
 
-        /* ЛИСТЕНЦА */
-        .petal { 
-            position: absolute; 
-            background: #ffb7c5;
-            border-radius: 150% 0 150% 0; 
-            opacity: 0.8; 
-            animation: fall linear forwards;
-        }
-
+       /* Листенцата да падат ПРЕД картичката */
+.petal {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+}
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
         /* ADAPTIVE */
@@ -379,6 +377,7 @@ let i = 0;
  
        
           
+
 
 
 
