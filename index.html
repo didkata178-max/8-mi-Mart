@@ -265,14 +265,16 @@
 let wish = ""; 
 let i = 0;
  window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const name = urlParams.get('name');
-        if (name) {
-            document.getElementById('userName').value = name;
-            startApp(true);
-        }
-    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const wishIndex = urlParams.get('w'); // Взимаме индекса тук
 
+    if (name) {
+        document.getElementById('userName').value = name;
+        wish = wishes[wishIndex] || wishes[0]; // Задаваме пожеланието веднага
+        startApp(true);
+    }
+}
   function startApp(auto = false) {
     const nameInput = document.getElementById('userName');
     const name = nameInput.value.trim();
@@ -328,17 +330,22 @@ let i = 0;
         }
     }
 
-    function shareToOther(event) {
-        event.stopPropagation();
-        const newName = prompt("Име на дамата:");
-        if (newName) {
-            const currentUrl = window.location.href.split('?')[0];
-            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName);
-            navigator.clipboard.writeText(newUrl).then(() => {
-                alert("Линкът за " + newName + " е копиран! ✨");
-            });
-        }
+  function shareToOther(event) {
+    event.stopPropagation();
+    const newName = prompt("Име на дамата:");
+    if (newName) {
+        const select = document.getElementById('wishSelect');
+        const wishIndex = select.value; // Взимаме числото на избраното пожелание
+        
+        const currentUrl = window.location.href.split('?')[0];
+        // Добавяме "&w=" и номера на пожеланието в линка
+        const newUrl = currentUrl + "?name=" + encodeURIComponent(newName) + "&w=" + wishIndex;
+        
+        navigator.clipboard.writeText(newUrl).then(() => {
+            alert("Линкът за " + newName + " е копиран! ✨");
+        });
     }
+}
     function createPetal() {
         const petal = document.createElement('div');
         petal.className = 'petal';
@@ -372,6 +379,7 @@ let i = 0;
  
        
           
+
 
 
 
