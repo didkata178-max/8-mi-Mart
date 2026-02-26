@@ -11,20 +11,23 @@
             --dusty-rose: #a97171;
             --glass: rgba(255, 255, 255, 0.8);
         }
-
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #fdf5f5;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
-        }
-
-        /* НАЧАЛЕН ЕКРАН */
+      body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #fdf5f5;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden; /* Спира скролването */
+    overscroll-behavior: none; /* Спира "еластичното" дърпане на мобилни устройства */
+    touch-action: none; /* Спира мащабирането и местенето с пръсти върху фона */
+    overflow: hidden; 
+    touch-action: none;
+    overscroll-behavior: none;
+}
+    /* НАЧАЛЕН ЕКРАН */
         #setup {
             background: white;
             padding: 40px 20px;
@@ -70,8 +73,7 @@
             position: relative;
             z-index: 10;
         }
-
-        .card {
+           .card {
             width: 100%;
             height: 100%;
             position: relative;
@@ -79,24 +81,23 @@
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
-
         .card.open { transform: rotateY(-175deg); }
-
         .face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            background: url('2.png') center/cover;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 25px;
-            box-sizing: border-box;
-        }
-
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    background: url('2.png') center/cover;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    box-sizing: border-box;
+    /* ТОВА Е ВАЖНИЯТ РЕД: */
+    overflow: hidden; 
+}
         .face.front { justify-content: center; }
         .face.back { transform: rotateY(180deg); justify-content: flex-start; }
 
@@ -139,24 +140,24 @@
             z-index: 5;
         }
 
-        /* БУКЕТ */
-        #flower {
-            position: absolute;
-            left: 50%;
-            bottom: 10px;
-            height: 60vh; 
-            width: auto;
-            opacity: 0;
-            transform: translateX(-50%) scale(0.1);
-            transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            z-index: 100;
-        }
+       #flower {
+    position: fixed; /* Вече се движи спрямо екрана, а не спрямо картичката */
+    left: 50%;
+    bottom: -100px; /* Скриваме го първоначално под екрана */
+    height: 65vh;   /* Правим го висок и внушителен */
+    width: auto;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.1);
+    transition: all 2.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    z-index: 500; /* Да е най-отгоре над всичко */
+}
 
-        #flower.pop-out {
-            opacity: 1;
-            transform: translateX(-50%) scale(1.3);
-        }
+#flower.pop-out {
+    opacity: 1;
+    bottom: 5vh; /* Изскача нагоре на 5% от дъното на екрана */
+    transform: translateX(-50%) scale(1.4); /* Увеличаваме го смело */
+}
 
         /* БУТОНИ */
         button, .share-btn {
@@ -223,13 +224,13 @@
         </div>
         <div class="face back">
             <div id="typing-text"></div>
-            <img src="bouquet.png" id="flower">
             <div id="share-area">
                 <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ НА ДРУГА ДАМА 🎀</button>
             </div>
         </div>
     </div>
 </div>
+    <img src="bouquet.png" id="flower"> 
 <script>
     const wish = "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Нека този празник ти донесе безброй усмивки и топлина в сърцето. Честит 8-ми Март!";
     let i = 0;
@@ -329,6 +330,7 @@
  
        
           
+
 
 
 
