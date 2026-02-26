@@ -3,215 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>8-ми Март - Магическа Картичка</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500;600&display=swap" rel="stylesheet">
+    <title>8-ми Март</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --rose-pink: #d4a5a5;
-            --dusty-rose: #a97171;
-            --glass: rgba(255, 255, 255, 0.8);
-        }
-
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: #fdf5f5;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
-            touch-action: none;
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background: #fdf5f5;
+            font-family: 'Montserrat', sans-serif; overflow: hidden;
         }
 
         /* НАЧАЛЕН ЕКРАН */
         #setup {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            position: fixed;
-            z-index: 2000;
-            border: 2px solid var(--dusty-rose);
-            width: 85%;
-            max-width: 380px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            text-align: center;
+            background: white; padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: fixed; z-index: 3000; width: 85%; max-width: 350px;
+            text-align: center; border: 2px solid #a97171;
         }
 
-        #setup h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.2rem;
-            margin: 0;
-            color: #333;
+        #setup h1 { font-family: 'Great Vibes', cursive; font-size: 2.5rem; margin-bottom: 20px; }
+
+        /* СТИЛ ЗА МЕНЮТО - ТУК Е ВАЖНО */
+        input, select {
+            width: 100%; padding: 12px; margin: 10px 0;
+            border: 2px solid #d4a5a5; border-radius: 25px;
+            font-size: 16px; text-align: center; display: block;
         }
 
-        input, #wishSelect {
-            padding: 15px;
-            border: 2px solid var(--dusty-rose);
-            border-radius: 30px;
-            font-size: 16px;
-            text-align: center;
-            outline: none;
-            width: 100%;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+        #startBtn {
+            background: #a97171; color: white; border: none;
+            padding: 15px 30px; border-radius: 25px; font-weight: bold;
+            cursor: pointer; width: 100%; margin-top: 10px;
         }
 
-        #wishSelect { background: white; cursor: pointer; }
-
-        /* СЦЕНА */
-        .scene {
-            width: 90vw;
-            max-width: 380px;
-            height: 75vh;
-            perspective: 2000px;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        .card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
+        /* КАРТИЧКА */
+        .scene { width: 90vw; max-width: 380px; height: 70vh; perspective: 2000px; display: none; position: relative; }
+        .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 1.5s; }
         .card.open { transform: rotateY(-175deg); }
 
-        /* СТРАНИ НА КАРТИЧКАТА */
         .face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            background: url('2.png') center/cover no-repeat;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-
-        .face.front {
-            justify-content: center;
-            align-items: center;
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; border-radius: 20px;
+            background: url('2.png') center/cover no-repeat; /* ОРИГИНАЛЕН ФОН */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .face.back {
             transform: rotateY(180deg);
-            /* Правим лек прозрачен слой над картинката отвътре, за да се чете текста */
-            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('2.png') center/cover no-repeat;
-            justify-content: flex-start;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center; padding: 20px;
             position: relative;
+            /* ТУК НЯМА СВЕТЪЛ СЛОЙ - ЩЕ Е КАТО СНИМКАТА */
         }
 
-        .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.5rem; margin: 0; color: #333; }
-        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--dusty-rose); margin: 10px 0; }
-
-        .tap-hint {
-            position: absolute;
-            bottom: 40px;
-            font-size: 1.1rem;
-            color: #444;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 8px 20px;
-            border-radius: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-
-        /* ТЕКСТ И ПОЖЕЛАНИЕ */
+        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #a97171; margin-top: 40%; text-align: center; }
+        
         #typing-text {
-            font-family: 'Great Vibes', cursive;
-            font-size: 1.6rem;
-            line-height: 1.4;
-            color: #1a252f;
-            text-align: center;
-            width: 100%;
-            margin-top: 30px;
-            max-height: 55%;
-            overflow-y: auto;
+            font-family: 'Great Vibes', cursive; font-size: 1.6rem;
+            color: #000; text-align: center; margin-top: 20px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.8); /* Правим текста четим върху тъмен фон */
         }
 
-        /* БУКЕТ - НАЙ-ОТГОРЕ */
-        #flower {
-            position: fixed;
-            left: 50%;
-            bottom: -200px;
-            height: 60vh;
-            width: auto;
-            opacity: 0;
-            transform: translateX(-50%) scale(0.5);
-            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        #flower.pop-out {
-            opacity: 1;
-            bottom: 5vh;
-            transform: translateX(-50%) scale(1.3);
-        }
-
-        /* БУТОН СПОДЕЛЯНЕ - ЗАКОТВЕН */
         #share-area {
-            display: none;
-            position: absolute;
-            bottom: 30px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            z-index: 100;
+            display: none; position: absolute; bottom: 30px;
+            left: 0; right: 0; text-align: center;
         }
 
         .share-btn {
-            background: white !important;
-            color: var(--dusty-rose) !important;
-            border: 2px solid var(--dusty-rose) !important;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase;
+            background: white; color: #a97171; border: 2px solid #a97171;
+            padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;
         }
 
-        /* ЛИСТЕНЦА */
-        .petal {
-            position: fixed;
-            top: -20px;
-            z-index: 9998;
-            background: #ffc0cb;
-            border-radius: 150% 0 150% 0;
-            animation: fall linear forwards;
-            pointer-events: none;
+        #flower {
+            position: fixed; left: 50%; bottom: -200px; height: 55vh;
+            transform: translateX(-50%) scale(0.5); transition: all 2s;
+            z-index: 9999; opacity: 0; pointer-events: none;
         }
 
+        #flower.pop-out { opacity: 1; bottom: 5vh; transform: translateX(-50%) scale(1.3); }
+
+        .petal { position: fixed; z-index: 9998; background: #ffc0cb; border-radius: 150% 0 150% 0; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-
-        button#startBtn {
-            background: var(--dusty-rose);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -219,14 +90,13 @@
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mp3"></audio>
 
 <div id="setup">
-    <h1>Магия за 8-ми Март</h1>
-    <p style="font-size: 0.9rem; color: #444; margin: 0;">Напиши името на дамата:</p>
-    <input type="text" id="userName" placeholder="Име">
+    <h1>За теб...</h1>
+    <input type="text" id="userName" placeholder="Име на дамата">
     <select id="wishSelect">
-        <option value="0">🌹 Класическо</option>
-        <option value="1">❤️ За любима жена</option>
-        <option value="2">👩‍👧 За мама</option>
-        <option value="3">💼 За колежка</option>
+        <option value="0">🌹 Класическо пожелание</option>
+        <option value="1">❤️ За любимата жена</option>
+        <option value="2">👩‍👧 За най-добрата майка</option>
+        <option value="3">💼 За уважавана колежка</option>
     </select>
     <button id="startBtn" onclick="startApp()">СЪЗДАЙ ✨</button>
 </div>
@@ -234,14 +104,12 @@
 <div class="scene" id="cardScene">
     <div class="card" id="mainCard" onclick="openCard()">
         <div class="face front">
-            <h2>Честит празник,</h2>
             <h1 id="display-name"></h1>
-            <p class="tap-hint">Докосни <span>ТУК</span></p>
         </div>
         <div class="face back">
             <div id="typing-text"></div>
             <div id="share-area">
-                <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ НА ДРУГА ДАМА 🎀</button>
+                <button class="share-btn" onclick="shareToOther(event)">ИЗПРАТИ КАРТИЧКА 🎀</button>
             </div>
         </div>
     </div>
@@ -257,66 +125,37 @@
         "Уважаема колежке, пожелавам Ви здраве, успехи и много радостни моменти. Честит празник!"
     ];
 
-    let wish = ""; 
-    let i = 0;
+    let i = 0; let selectedWish = "";
 
-    window.onload = function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const name = urlParams.get('name');
-        const wishIndex = urlParams.get('w');
-
-        if (name) {
-            document.getElementById('userName').value = name;
-            wish = wishes[wishIndex] || wishes[0];
-            startApp(true);
-        }
-    }
-
-    function startApp(auto = false) {
-        const nameInput = document.getElementById('userName');
-        const name = nameInput.value.trim();
-        const select = document.getElementById('wishSelect');
-
+    function startApp() {
+        const name = document.getElementById('userName').value.trim();
+        const wishIndex = document.getElementById('wishSelect').value;
         if (!name) return alert("Моля, въведи име.");
 
-        if (!auto) {
-            wish = wishes[select.value]; 
-        }
-
+        selectedWish = wishes[wishIndex];
         document.getElementById('display-name').innerText = name + "!";
         document.getElementById('setup').style.display = 'none';
         document.getElementById('cardScene').style.display = 'flex';
-        if (!auto) playMusic();
-    }
-
-    function playMusic() {
-        const music = document.getElementById('bgMusic');
-        music.volume = 0.5;
-        music.play().catch(() => console.log("Музиката чака действие"));
     }
 
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
         
-        playMusic();
+        document.getElementById('bgMusic').play();
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
         setInterval(createPetal, 500);
     }
 
     function typeWriter() {
-        const textElement = document.getElementById("typing-text");
-        if (i < wish.length) {
-            textElement.innerHTML += wish.charAt(i);
-            i++;
-            setTimeout(typeWriter, 65);
+        if (i < selectedWish.length) {
+            document.getElementById("typing-text").innerHTML += selectedWish.charAt(i);
+            i++; setTimeout(typeWriter, 60);
         } else {
             setTimeout(() => {
                 document.getElementById('flower').classList.add('pop-out');
-                setTimeout(() => {
-                    document.getElementById('share-area').style.display = 'block';
-                }, 2000);
+                setTimeout(() => document.getElementById('share-area').style.display = 'block', 2000);
             }, 1000);
         }
     }
@@ -325,14 +164,10 @@
         event.stopPropagation();
         const newName = prompt("Име на дамата:");
         if (newName) {
-            const select = document.getElementById('wishSelect');
-            const wishIndex = select.value;
             const currentUrl = window.location.href.split('?')[0];
-            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName) + "&w=" + wishIndex;
-            
-            navigator.clipboard.writeText(newUrl).then(() => {
-                alert("Линкът за " + newName + " е копиран! ✨");
-            });
+            const wishIdx = document.getElementById('wishSelect').value;
+            const newUrl = currentUrl + "?name=" + encodeURIComponent(newName) + "&w=" + wishIdx;
+            navigator.clipboard.writeText(newUrl).then(() => alert("Линкът е копиран!"));
         }
     }
 
@@ -340,20 +175,20 @@
         const petal = document.createElement('div');
         petal.className = 'petal';
         petal.style.left = Math.random() * 100 + 'vw';
-        const size = Math.random() * 15 + 10 + 'px';
-        petal.style.width = size;
-        petal.style.height = size;
-        petal.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        petal.style.width = petal.style.height = (Math.random() * 15 + 10) + 'px';
+        petal.style.animationDuration = (Math.random() * 2 + 3) + 's';
         document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 6000);
+        setTimeout(() => petal.remove(), 5000);
     }
 </script>
 </body>
 </html>
 
-    
       
-    
+  
+   
+      
+ 
          
      
      
@@ -392,6 +227,7 @@
  
        
           
+
 
 
 
