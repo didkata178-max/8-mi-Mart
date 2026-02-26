@@ -28,7 +28,7 @@
         /* НАЧАЛЕН ЕКРАН */
         #setup {
             background: white;
-            padding: 40px 20px;
+            padding: 30px 20px;
             border-radius: 25px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.2);
             position: fixed;
@@ -44,9 +44,9 @@
 
         #setup h1 {
             font-family: 'Great Vibes', cursive;
-            color: #000;
             font-size: 2.2rem;
             margin: 0;
+            color: #333;
         }
 
         input, #wishSelect {
@@ -56,14 +56,14 @@
             font-size: 16px;
             text-align: center;
             outline: none;
-            font-family: 'Montserrat', sans-serif;
             width: 100%;
             box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        #wishSelect { margin-top: 5px; cursor: pointer; background: white; }
+        #wishSelect { background: white; cursor: pointer; }
 
-        /* СЦЕНА И КАРТИЧКА */
+        /* СЦЕНА */
         .scene {
             width: 90vw;
             max-width: 380px;
@@ -87,13 +87,14 @@
 
         .card.open { transform: rotateY(-175deg); }
 
+        /* СТРАНИ НА КАРТИЧКАТА */
         .face {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
             border-radius: 20px;
-            background: url('2.png') center/cover;
+            background: url('2.png') center/cover no-repeat;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
@@ -102,64 +103,61 @@
             overflow: hidden;
         }
 
-        .face.front { justify-content: center; align-items: center; }
-
-        /* ВЪТРЕШНАТА СТРАНА (BACK) */
-        .face.back {
-            transform: rotateY(180deg);
-            background-color: #fff9fa;
-            background-image: none; /* Махаме фоновото изображение отвътре за по-добра четивност */
-            justify-content: flex-start;
+        .face.front {
+            justify-content: center;
             align-items: center;
-            position: relative; /* ВАЖНО ЗА БУТОНА */
         }
 
-        .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.8rem; margin: 0; color: #000; }
-        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--rose-pink); margin: 0; text-align: center; }
+        .face.back {
+            transform: rotateY(180deg);
+            /* Правим лек прозрачен слой над картинката отвътре, за да се чете текста */
+            background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('2.png') center/cover no-repeat;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+        }
+
+        .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.5rem; margin: 0; color: #333; }
+        #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--dusty-rose); margin: 10px 0; }
 
         .tap-hint {
             position: absolute;
-            bottom: 45px;
+            bottom: 40px;
             font-size: 1.1rem;
-            color: #333;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.7);
+            color: #444;
+            background: rgba(255, 255, 255, 0.6);
             padding: 8px 20px;
-            border-radius: 30px;
-            animation: pulse-tap 2s infinite ease-in-out;
+            border-radius: 20px;
+            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse-tap {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
+        /* ТЕКСТ И ПОЖЕЛАНИЕ */
         #typing-text {
             font-family: 'Great Vibes', cursive;
             font-size: 1.6rem;
+            line-height: 1.4;
             color: #1a252f;
             text-align: center;
-            background: var(--glass);
-            padding: 20px;
-            border-radius: 15px;
             width: 100%;
-            min-height: 150px;
-            line-height: 1.4;
-            margin-top: 20px;
+            margin-top: 30px;
+            max-height: 55%;
+            overflow-y: auto;
         }
 
-        /* БУКЕТ */
+        /* БУКЕТ - НАЙ-ОТГОРЕ */
         #flower {
             position: fixed;
             left: 50%;
-            bottom: -150px;
+            bottom: -200px;
             height: 60vh;
             width: auto;
             opacity: 0;
             transform: translateX(-50%) scale(0.5);
-            transition: all 2.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
-            z-index: 9999; /* НАЙ-ОТГОРЕ */
+            z-index: 9999;
         }
 
         #flower.pop-out {
@@ -168,46 +166,51 @@
             transform: translateX(-50%) scale(1.3);
         }
 
-        /* БУТОН ЗА СПОДЕЛЯНЕ - ЗАКОТВЕН ДОЛУ */
+        /* БУТОН СПОДЕЛЯНЕ - ЗАКОТВЕН */
         #share-area {
             display: none;
             position: absolute;
-            bottom: 30px; /* Фиксиран на 30px от дъното на КАРТИЧКАТА */
+            bottom: 30px;
             left: 0;
             right: 0;
             text-align: center;
-            padding-bottom: 20px; /* Въздух за мобилни ленти */
+            z-index: 100;
         }
 
         .share-btn {
             background: white !important;
             color: var(--dusty-rose) !important;
             border: 2px solid var(--dusty-rose) !important;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 30px;
             font-weight: 700;
-            font-family: 'Montserrat', sans-serif;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
         }
 
         /* ЛИСТЕНЦА */
         .petal {
             position: fixed;
-            z-index: 9998; /* Точно под букета */
-            pointer-events: none;
+            top: -20px;
+            z-index: 9998;
             background: #ffc0cb;
             border-radius: 150% 0 150% 0;
             animation: fall linear forwards;
+            pointer-events: none;
         }
 
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-        @keyframes pulse-tap {
-            0%, 100% { transform: translateX(0) scale(1); }
-            50% { transform: translateX(0) scale(1.1); }
+        button#startBtn {
+            background: var(--dusty-rose);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -225,7 +228,7 @@
         <option value="2">👩‍👧 За мама</option>
         <option value="3">💼 За колежка</option>
     </select>
-    <button onclick="startApp()" style="margin-top: 10px; background: var(--dusty-rose) !important; color: white !important; border: none !important;">СЪЗДАЙ ✨</button>
+    <button id="startBtn" onclick="startApp()">СЪЗДАЙ ✨</button>
 </div>
 
 <div class="scene" id="cardScene">
@@ -233,7 +236,7 @@
         <div class="face front">
             <h2>Честит празник,</h2>
             <h1 id="display-name"></h1>
-            <p class="tap-hint">Докосни <span>ТУК</span> за теб</p>
+            <p class="tap-hint">Докосни <span>ТУК</span></p>
         </div>
         <div class="face back">
             <div id="typing-text"></div>
@@ -340,7 +343,6 @@
         const size = Math.random() * 15 + 10 + 'px';
         petal.style.width = size;
         petal.style.height = size;
-        petal.style.top = "-20px";
         petal.style.animationDuration = (Math.random() * 3 + 3) + 's';
         document.body.appendChild(petal);
         setTimeout(() => petal.remove(), 6000);
@@ -349,6 +351,20 @@
 </body>
 </html>
 
+    
+      
+    
+         
+     
+     
+      
+  
+      
+
+        
+       
+    
+   
 
  
 
@@ -376,6 +392,7 @@
  
        
           
+
 
 
 
