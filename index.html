@@ -62,28 +62,29 @@
             text-align: center;
             outline: none;
         }
-
-        /* КАРТИЧКА - ЦЕНТРИРАНЕ */
-      .scene {
+/* ВРЪЩАМЕ РАЗМЕРА НА СЦЕНАТА */
+.scene {
     width: 90vw;
-    max-width: 380px;
-    height: 80vh;
+    max-width: 380px; /* Това е стандартната ширина */
+    height: 75vh;     /* Височината, която е подходяща за телефон */
     perspective: 2000px;
     display: none; 
     justify-content: center;
     align-items: center;
-    /* Вдигаме картичката нагоре, за да не е забита в долната част */
-    margin-top: -5vh; 
+    margin-top: -5vh; /* Леко нагоре, както се разбрахме вчера */
+    position: relative;
+    z-index: 10;
 }
 
-        .card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
+       /* ВРЪЩАМЕ РАЗМЕРА НА КАРТИЧКАTA */
+.card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
         .card.open { transform: rotateY(-175deg); }
 
         .face {
@@ -414,6 +415,7 @@ button:active, .share-btn:active {
  
        
           
+
 
 
 
