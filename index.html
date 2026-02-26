@@ -6,31 +6,27 @@
     <title>8-ми Март - Магическа Картичка</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --rose-pink: #d42d4d;
+   :root {
+            --rose-pink: #d4a5a5;
             --dusty-rose: #a97171;
-            --glass: rgba(255, 255, 255, 0.85);
+            --glass: rgba(255, 255, 255, 0.8);
         }
 
         body {
-            background: #fff0f3;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
+            background: #fdf5f5;
             font-family: 'Montserrat', sans-serif;
-            overflow: hidden; /* Спира скролването и местенето */
-            position: fixed; /* Заковава целия екран */
-            width: 100%;
+            overflow: hidden;
         }
 
         /* НАЧАЛЕН ЕКРАН */
         #setup {
-            text-align: center;
-            background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('1.png');
-            background-size: cover;
-            background-position: center;
+            background: white;
             padding: 40px 20px;
             border-radius: 25px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.2); 
@@ -42,6 +38,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            text-align: center;
         }
 
         #setup h1 {
@@ -49,9 +46,6 @@
             color: #000;
             font-size: 2.2rem;
             margin: 0;
-            background: rgba(255,255,255,0.7);
-            padding: 10px;
-            border-radius: 15px;
         }
 
         input {
@@ -62,29 +56,30 @@
             text-align: center;
             outline: none;
         }
-/* ВРЪЩАМЕ РАЗМЕРА НА СЦЕНАТА */
-.scene {
-    width: 90vw;
-    max-width: 380px; /* Това е стандартната ширина */
-    height: 75vh;     /* Височината, която е подходяща за телефон */
-    perspective: 2000px;
-    display: none; 
-    justify-content: center;
-    align-items: center;
-    margin-top: -5vh; /* Леко нагоре, както се разбрахме вчера */
-    position: relative;
-    z-index: 10;
-}
 
-       /* ВРЪЩАМЕ РАЗМЕРА НА КАРТИЧКАTA */
-.card {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-}
+        /* СЦЕНА И КАРТИЧКА */
+        .scene {
+            width: 90vw;
+            max-width: 380px;
+            height: 75vh;
+            perspective: 2000px;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            margin-top: -5vh;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
         .card.open { transform: rotateY(-175deg); }
 
         .face {
@@ -108,7 +103,28 @@
         .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.8rem; margin: 0; color: #000; }
         #display-name { font-family: 'Great Vibes', cursive; font-size: 3rem; color: var(--rose-pink); margin: 0; text-align: center; }
 
-        /* ТЕКСТ - По-голям и по-нагоре */
+        /* ТЕКСТ ПОДКАЗКА (Докосни ТУК) */
+        .tap-hint {
+            position: absolute;
+            bottom: 45px;
+            font-size: 1.3rem !important;
+            color: #333;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 25px;
+            border-radius: 30px;
+            animation: pulse-tap 2s infinite ease-in-out;
+            margin: 0;
+        }
+
+        .tap-hint span { color: var(--rose-pink); font-weight: 800; text-decoration: underline; }
+
+        @keyframes pulse-tap {
+            0%, 100% { transform: scale(1); background: rgba(255, 255, 255, 0.7); }
+            50% { transform: scale(1.1); background: rgba(255, 255, 255, 0.9); }
+        }
+
+        /* ТЕКСТ ПОЖЕЛАНИЕ */
         #typing-text {
             font-family: 'Great Vibes', cursive;
             font-size: 1.7rem;
@@ -118,99 +134,45 @@
             padding: 20px;
             border-radius: 15px;
             width: 100%;
-            box-sizing: border-box;
             min-height: 160px;
             line-height: 1.3;
             z-index: 5;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-/* НОВИТЕ СТИЛОВЕ ЗА НАДПИСА ОТДОЛУ */
-.face.front p {
-    position: absolute;
-    bottom: 40px; 
-    font-size: 1.2rem; /* Увеличен размер */
-    color: #333;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.6); /* Полупрозрачен фон за четливост */
-    padding: 8px 20px;
-    border-radius: 25px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    /* Анимация за пулсиране */
-    animation: pulse-text 2s infinite ease-in-out;
-}
 
-/* Правим думата "ТУК" по-ярка */
-.face.front p span {
-    color: var(--rose-pink);
-    font-weight: 800;
-    text-transform: uppercase;
-}
-.tap-hint {
-    position: absolute;
-    bottom: 45px; /* Малко по-нагоре за по-добра видимост */
-    font-size: 1.3rem !important; /* ГОЛЯМ И ЧЕТЛИВ */
-    color: #333;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.7); /* По-плътен фон */
-    padding: 10px 25px;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    margin: 0;
-    animation: pulse-tap 2s infinite ease-in-out;
-    cursor: pointer;
-}
+        /* БУКЕТ */
+        #flower {
+            position: absolute;
+            left: 50%;
+            bottom: 10px;
+            height: 60vh; 
+            width: auto;
+            opacity: 0;
+            transform: translateX(-50%) scale(0.1);
+            transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            z-index: 100;
+        }
 
-.tap-hint span {
-    color: var(--rose-pink);
-    font-weight: 800;
-    text-transform: uppercase;
-    text-decoration: underline;
-}
+        #flower.pop-out {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.3);
+        }
 
-/* Анимация за пулсиране */
-@keyframes pulse-tap {
-    0%, 100% { transform: scale(1); background: rgba(255, 255, 255, 0.7); }
-    50% { transform: scale(1.1); background: rgba(255, 255, 255, 0.9); }
-}
-/* Дефиниция на анимацията за пулсиране */
-@keyframes pulse-text {
-    0%, 100% { transform: scale(1); opacity: 0.9; }
-    50% { transform: scale(1.1); opacity: 1; }
-}
-        /* БУКЕТ - Корекция на позицията */
-#flower {
-    position: absolute;
-    left: 50%;
-    bottom: 0px; /* Поставяме го на самото дъно на картичката */
-    /* Тук е тайната: правим го висок 50% от височината на екрана */
-    height: 70vh; 
-    width: auto; /* Ширината се наглася сама, за да не се разтегли картинката */
-    opacity: 0;
-    mix-blend-mode: normal;
-    transform: translateX(-50%) scale(0.1);
-    transition: all 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    pointer-events: none;
-    z-index: 100;
-}
-
-#flower.pop-out {
-    opacity: 1;
-    /* Увеличаваме мащаба спрямо новата височина */
-    transform: translateX(-50%) scale(1.4); 
-}
-        /* БУТОНИ - Пепел от рози */
+        /* БУТОНИ */
         button, .share-btn {
-            background: linear-gradient(45deg, #a97171, #c99393) !important;
-            color: white !important;
-            border: none !important;
-            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.9) !important; 
+            color: #a97171 !important;
+            border: 2px solid #a97171 !important;
+            padding: 12px 25px;
             border-radius: 35px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(169, 113, 113, 0.4);
             font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
         }
+
+        button:active { transform: scale(0.95); }
 
         #share-area {
             position: absolute;
@@ -218,72 +180,33 @@
             display: none;
             width: 100%;
             text-align: center;
-            z-index: 10;
-     /* ОБНОВЕНИ БУТОНИ - Стил "Пепел от рози" (в хармония с подсказката) */
-button, .share-btn {
-    /* Използваме лек фон, за да си отива с новия надпис отпред */
-    background: rgba(255, 255, 255, 0.9) !important; 
-    color: #a97171 !important; /* Текст в цвят пепел от рози */
-    border: 2px solid #a97171 !important; /* Рамка в същия цвят */
-    padding: 12px 25px;
-    border-radius: 35px;
-    font-weight: 700;
-    cursor: pointer;
-    text-transform: uppercase;
-    box-shadow: 0 5px 15px rgba(169, 113, 113, 0.2);
-    font-family: 'Montserrat', sans-serif;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
-}
-/* Ефект при натискане */
-button:active, .share-btn:active {
-    transform: scale(0.95);
-    background: #a97171 !important;
-    color: white !important;
-}
+            z-index: 110;
+        }
 
-#share-area {
-    position: absolute;
-    bottom: 25px;
-    display: none;
-    width: 100%;
-    text-align: center;
-    z-index: 110; /* Увеличаваме го, за да е над букета */
-}
-
+        /* ЛИСТЕНЦА */
         .petal { 
             position: absolute; 
             background: #ffb7c5;
             border-radius: 150% 0 150% 0; 
             opacity: 0.8; 
-            z-index: 999; 
             animation: fall linear forwards;
         }
 
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-     /* Специално за много големи екрани (лаптопи) */
-@media (min-width: 1024px) {
-    #flower.pop-out {
-        transform: translateX(-50%) scale(1.1); /* На лаптоп 1.1 е напълно достатъчно */
-    }
-}
+        /* ADAPTIVE */
+        @media (min-width: 1024px) {
+            #flower.pop-out { transform: translateX(-50%) scale(1.1); }
+        }
 
-/* Корекция за телефони - там може да е още по-внушителен */
-@media (max-width: 480px) {
-    #flower {
-        height: 45vh; /* На телефон 45% от екрана е идеално */
-    }
-    #flower.pop-out {
-        transform: translateX(-50%) scale(1.2);
-    }
-}
+        @media (max-width: 480px) {
+            #flower { height: 45vh; }
+            #flower.pop-out { transform: translateX(-50%) scale(1.2); }
+        }
     </style>
 </head>
 <body>
-
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mp3"></audio>
-
 <div id="setup">
     <h1>Магия за 8-ми Март</h1>
     <p style="font-size: 0.9rem; color: #444;">Напиши името на дамата:</p>
@@ -293,11 +216,11 @@ button:active, .share-btn:active {
 
 <div class="scene" id="cardScene">
     <div class="card" id="mainCard" onclick="openCard()">
-   <div class="face front">
-    <h2>Честит празник,</h2>
-    <h1 id="display-name"></h1>
-    <p class="tap-hint">Докосни <span>ТУК</span> за теб</p>
-</div>
+        <div class="face front">
+            <h2>Честит празник,</h2>
+            <h1 id="display-name"></h1>
+            <p class="tap-hint">Докосни <span>ТУК</span> за теб</p>
+        </div>
         <div class="face back">
             <div id="typing-text"></div>
             <img src="bouquet.png" id="flower">
@@ -307,12 +230,10 @@ button:active, .share-btn:active {
         </div>
     </div>
 </div>
-
 <script>
     const wish = "Бъди винаги така сияйна, нежна като пролетен цвят и вдъхновяваща! Нека този празник ти донесе безброй усмивки и топлина в сърцето. Честит 8-ми Март!";
     let i = 0;
-
-    window.onload = function() {
+ window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const name = urlParams.get('name');
         if (name) {
@@ -329,46 +250,40 @@ button:active, .share-btn:active {
         document.getElementById('display-name').innerText = name + "!";
         document.getElementById('setup').style.display = 'none';
         document.getElementById('cardScene').style.display = 'flex';
-
         if (!auto) playMusic();
     }
 
     function playMusic() {
         const music = document.getElementById('bgMusic');
         music.volume = 0.5;
-        music.play().catch(() => console.log("Браузърът чака действие"));
+        music.play().catch(() => console.log("Музиката чака действие"));
     }
 
     function openCard() {
         const card = document.getElementById('mainCard');
         if (card.classList.contains('open')) return;
         
-        playMusic(); // Пускаме музиката точно при отваряне
+        playMusic();
         card.classList.add('open');
         setTimeout(typeWriter, 1200);
         setInterval(createPetal, 500);
     }
 
-  function typeWriter() {
-    const textElement = document.getElementById("typing-text");
-    if (i < wish.length) {
-        textElement.innerHTML += wish.charAt(i);
-        i++;
-        setTimeout(typeWriter, 65);
-    } else {
-        // Текстът е готов! Сега чакаме 3 секунди (3000ms), 
-        // за да може човекът да го прочете на спокойствие.
-        setTimeout(() => {
-            const img = document.getElementById('flower');
-            img.classList.add('pop-out');
-            
-            // Бутонът за споделяне се появява последен
+    function typeWriter() {
+        const textElement = document.getElementById("typing-text");
+        if (i < wish.length) {
+            textElement.innerHTML += wish.charAt(i);
+            i++;
+            setTimeout(typeWriter, 65);
+        } else {
             setTimeout(() => {
-                document.getElementById('share-area').style.display = 'block';
-            }, 2500);
-        }, 3000); // Промени тези 3000 на повече, ако искаш още по-дълга пауза
+                document.getElementById('flower').classList.add('pop-out');
+                setTimeout(() => {
+                    document.getElementById('share-area').style.display = 'block';
+                }, 2500);
+            }, 3000);
+        }
     }
-}
 
     function shareToOther(event) {
         event.stopPropagation();
@@ -381,7 +296,6 @@ button:active, .share-btn:active {
             });
         }
     }
-
     function createPetal() {
         const petal = document.createElement('div');
         petal.className = 'petal';
@@ -415,6 +329,7 @@ button:active, .share-btn:active {
  
        
           
+
 
 
 
