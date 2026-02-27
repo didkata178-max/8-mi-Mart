@@ -11,13 +11,21 @@
             --rose-pink: #d4a5a5;
         }
 
-        body {
-            margin: 0; padding: 0;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; background: #fdf5f5;
-            font-family: 'Montserrat', sans-serif; overflow: hidden;
-            touch-action: none;
-        }
+     body {
+    margin: 0; 
+    padding: 0;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    /* ПРОМЯНАТА: dvh означава Dynamic Viewport Height */
+    height: 100dvh; 
+    width: 100vw;
+    background: #fdf5f5;
+    font-family: 'Montserrat', sans-serif; 
+    overflow: hidden;
+    touch-action: none;
+    position: fixed; /* Гарантира, че фонът няма да мърда */
+}
 
         /* ЦЕНТРИРАНА СЦЕНА */
         .scene {
@@ -46,11 +54,15 @@
             align-items: center; padding: 30px; box-sizing: border-box;
         }
 
-        /* ПЪРВА СТРАНИЦА */
-        .face.front { justify-content: center; text-align: center; }
-        .face.front h2 { font-family: 'Great Vibes', cursive; font-size: 2.2rem; margin: 0; color: #333; }
-        #display-name { font-family: 'Marck Script', cursive; font-size: 3.2rem; color: var(--dusty-rose); margin: 10px 0; }
-        .tap-hint { font-size: 0.9rem; color: #666; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px; }
+       #display-name { 
+    font-family: 'Marck Script', cursive; 
+    /* clamp(минимален, препоръчителен, максимален размер) */
+    font-size: clamp(1.6rem, 8vw, 3.2rem); 
+    color: var(--dusty-rose); 
+    margin: 10px 0;
+    width: 90%; /* Ограничава текста да не опира в краищата */
+    word-wrap: break-word; 
+}
 
         /* ВТОРА СТРАНИЦА */
         .face.back { transform: rotateY(180deg); justify-content: flex-start; position: relative; }
@@ -251,6 +263,7 @@
  
        
           
+
 
 
 
