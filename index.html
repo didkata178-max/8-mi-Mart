@@ -98,6 +98,10 @@
             position: fixed; left: 50%; bottom: -300px; height: 55vh;
             transform: translateX(-50%) scale(0.5); transition: all 2s ease-out;
             z-index: 100; opacity: 0; pointer-events: none;
+            {
+    /* ... твоите настройки ... */
+    pointer-events: none; /* Това позволява да се клика през букета */
+}
         }
         #flower.pop-out { opacity: 1; bottom: 5vh; transform: translateX(-50%) scale(1.2); }
 
@@ -189,7 +193,22 @@ let i = 0;
             selectedWish = wishes[0];
         }
     }; // <--- ТУК ЛИПСВАШЕ ТАЗИ СКОБА И ТОЧКА С ЗАПЕТАЯ
-
+function openCard() {
+        const card = document.getElementById('mainCard');
+        if (card.classList.contains('open')) return;
+        
+        // Стартираме музиката
+        document.getElementById('bgMusic').play().catch(() => {});
+        
+        // Отваряме картичката визуално
+        card.classList.add('open');
+        
+        // СТАРТИРАМЕ ПИСАНЕТО НА ТЕКСТА
+        setTimeout(typeWriter, 1200);
+        
+        // Пускаме падащите венчелистчета
+        setInterval(createPetal, 500);
+    }
     function typeWriter() {
         if (i < selectedWish.length) {
             document.getElementById("typing-text").innerHTML += selectedWish.charAt(i);
@@ -272,6 +291,7 @@ let i = 0;
  
        
           
+
 
 
 
