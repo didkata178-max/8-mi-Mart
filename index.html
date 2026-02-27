@@ -45,14 +45,19 @@
 
         .card.open { transform: rotateY(-175deg); }
 
-        .face {
-            position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 20px;
-            background: url('2.png') center/cover no-repeat;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
-            display: flex; flex-direction: column;
-            align-items: center; padding: 30px; box-sizing: border-box;
-        }
+       .face {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; border-radius: 20px;
+    background: url('2.png') center/cover no-repeat;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+    display: flex; 
+    flex-direction: column;
+    /* ТОВА Е ВАЖНОТО: */
+    justify-content: center; 
+    align-items: center; 
+    padding: 30px; 
+    box-sizing: border-box;
+}
 
        #display-name { 
     font-family: 'Marck Script', cursive; 
@@ -63,7 +68,13 @@
     width: 90%; /* Ограничава текста да не опира в краищата */
     word-wrap: break-word; 
 }
-
+.face.front h2 { 
+    font-family: 'Great Vibes', cursive !important; 
+    font-size: 2.2rem; 
+    margin: 0; 
+    color: #333; 
+    font-weight: normal;
+}
         /* ВТОРА СТРАНИЦА */
         .face.back { transform: rotateY(180deg); justify-content: flex-start; position: relative; }
         #typing-text {
@@ -263,6 +274,7 @@
  
        
           
+
 
 
 
