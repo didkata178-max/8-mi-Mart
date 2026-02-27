@@ -174,8 +174,7 @@
     // 4. За колежка
     "Честит 8-ми март! Желая ти здраве, професионални успехи и лично щастие, което да те кара да сияеш всеки ден!"
 ];
-
-    let i = 0; 
+let i = 0; 
     let selectedWish = "";
 
     window.onload = function() {
@@ -189,21 +188,28 @@
         } else {
             selectedWish = wishes[0];
         }
-    }
-
-   
+    }; // <--- ТУК ЛИПСВАШЕ ТАЗИ СКОБА И ТОЧКА С ЗАПЕТАЯ
 
     function typeWriter() {
         if (i < selectedWish.length) {
             document.getElementById("typing-text").innerHTML += selectedWish.charAt(i);
-            i++; setTimeout(typeWriter, 60);
+            i++; 
+            setTimeout(typeWriter, 60);
         } else {
+            // Вече със забавяне от 5 секунди
             setTimeout(() => {
-                document.getElementById('flower').classList.add('pop-out');
-                setTimeout(() => { document.getElementById('share-area').style.display = 'block'; }, 2000);
+                const flower = document.getElementById('flower');
+                if (flower) flower.classList.add('pop-out');
+                
+                setTimeout(() => { 
+                    const share = document.getElementById('share-area');
+                    if (share) share.style.display = 'block'; 
+                }, 2000);
             }, 5000);
         }
     }
+   
+    
 
     // ПРЕХОД КЪМ СТРАНИЦА 3
     function goToStep3(event) {
@@ -266,6 +272,7 @@
  
        
           
+
 
 
 
