@@ -191,15 +191,7 @@
         }
     }
 
-    function openCard() {
-        const card = document.getElementById('mainCard');
-        if (card.classList.contains('open')) return;
-        
-        document.getElementById('bgMusic').play().catch(() => {});
-        card.classList.add('open');
-        setTimeout(typeWriter, 1200);
-        setInterval(createPetal, 500);
-    }
+   
 
     function typeWriter() {
         if (i < selectedWish.length) {
@@ -209,7 +201,7 @@
             setTimeout(() => {
                 document.getElementById('flower').classList.add('pop-out');
                 setTimeout(() => { document.getElementById('share-area').style.display = 'block'; }, 2000);
-            }, 1000);
+            }, 5000);
         }
     }
 
@@ -274,6 +266,7 @@
  
        
           
+
 
 
 
